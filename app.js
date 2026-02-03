@@ -1,0 +1,1 @@
+const enemycells = document.querySelectorAll('#enemey-board td');

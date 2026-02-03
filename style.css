@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+}
+
+.fire-btn {
+    width: 30px;
+}
+/* Container styling */
+table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse; /* Merges adjacent borders */
+  font-family: sans-serif;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Individual Cell Styling */
+td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd; /* Light borders for readability */
+  background-color: #fff;
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+
+
+/* Interactive Hover Effects */
+tr:hover {
+  background-color: #f1f1f1; /* Highlights row on hover */
+}
+
+td:hover {
+  background-color: #e9ecef; /* Highlights specific cell */
+  cursor: crosshair;
+}
+
+
