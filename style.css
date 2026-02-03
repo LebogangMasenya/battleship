@@ -44,8 +44,8 @@ nav > a:hover {
   border-radius: 5px;
   cursor: pointer;
 }
-/* Container styling */
 
+/* Container styling */
 .board {
   width: 80%;
   height: 40vh;
@@ -115,29 +115,36 @@ nav > a:hover {
 
 
 /* History.html styling */
-#history {
-  text-align: center;
-  margin-top: 20px;
-  width: 100%;
+#history-logs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 800px;
+  margin: auto;
 }
 
-.history-logs {
-  margin: 20px auto;
+/* Base grid for both header and rows */
+.heading, .log-entry {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-  width: 80%;
-  border: #e9ecef 2px solid;
-  padding: 10px;
+  grid-template-columns: 2fr 1fr 1fr 1fr; 
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
 }
 
 .heading {
   font-weight: bold;
-  grid-area: header;
+  background-color: #333;
+  color: white;
+  border-radius: 8px 8px 0 0;
 }
 
+.heading, .log-entry {
+  grid-template-areas: "date p-score e-score res";
+  text-align: center;
+}
 
-.log-entry {
-  border: #dee2e6 1px solid;
-  padding: 5px;
+/* Align date to the left for better reading */
+.log-entry span:nth-child(1) {
+  text-align: left;
 }

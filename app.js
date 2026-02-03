@@ -10,6 +10,11 @@ boards.forEach(board => {
 });
 
 // add x and y axis labels
+// add letters for y-axis
+const letters = 'ABCDEFGHIJKL';
+
+
+// add numbers for x-axis
 
 
 
@@ -20,9 +25,8 @@ const enemycells = document.querySelectorAll('#enemy-board .board-cell');
 // place player ships
 playercells.forEach((cell) => {
   cell.addEventListener('click', () => {
-    // toggle ship placement
     cell.classList.add('ship-cell');
-  }); 
+  });
 })
 
 /* 
@@ -33,11 +37,11 @@ Submarine: 3 connected tiles
 Destroyer: 2 connected tiles
 */
 const ships = {
-    'carrier-ship': 5,
-    'battleship-ship': 4,
-    'cruiser-ship': 3,
-    'submarine-ship': 3,
-    'destroyer-ship': 2
+  'carrier-ship': 5,
+  'battleship-ship': 4,
+  'cruiser-ship': 3,
+  'submarine-ship': 3,
+  'destroyer-ship': 2
 }
 
 
@@ -52,10 +56,9 @@ enemycells.forEach(cell => {
 
     // if the cell contains a ship, mark it as hit
     if (cell.classList.contains('ship-cell')) {
-      cell.style.backgroundColor='red';
+      cell.style.backgroundColor = 'red';
       return;
     }
-
 
     // if the cell does not contain a ship, mark it as miss
     cell.innerHTML = 'x';
@@ -76,17 +79,12 @@ shipSelect.addEventListener('change', (e) => {
 });
 
 
-// mock ship placement on player board
-for (let i = 0; i < 5; i++) {
-  playercells[i].classList.add('ship-cell');
-}
-
-
 // place ships on enemy board (for demo purposes, randomly place 5 ships)
 for (let i = 0; i < 5; i++) {
   const shipTypes = Object.keys(ships);
   const shipType = shipTypes[i];
   let placed = false;
+
   while (!placed) {
     const startIndex = Math.floor(Math.random() * 144);
     const isHorizontal = Math.random() < 0.5;
@@ -96,15 +94,15 @@ for (let i = 0; i < 5; i++) {
 
 
 function checkOverlap(shipType, startIndex, isHorizontal) {
-  if(isHorizontal) {
-    for(let i = 0; i < ships[shipType]; i++) {
-      if(enemycells[startIndex + i].classList.contains('ship-cell')) {
+  if (isHorizontal) {
+    for (let i = 0; i < ships[shipType]; i++) {
+      if (enemycells[startIndex + i].classList.contains('ship-cell')) {
         return true;
       }
     }
   } else {
-    for(let i = 0; i < ships[shipType]; i++) {
-      if(enemycells[startIndex + (i * 12)].classList.contains('ship-cell')) { // assuming board width is 12
+    for (let i = 0; i < ships[shipType]; i++) {
+      if (enemycells[startIndex + (i * 12)].classList.contains('ship-cell')) { // assuming board width is 12
         return true;
       }
     }
@@ -112,33 +110,41 @@ function checkOverlap(shipType, startIndex, isHorizontal) {
   return false;
 }
 
+// check and update that ship has sank
 function shipSank(shipType) {
-
+  return false;
 }
+
+// check for immediate ship neighboring cells
+function checkNeighboringCells(index) {
+  return false;
+}
+
+
 // for random ship placement
 function placeShip(shipType, startIndex, isHorizontal) {
-    // check to ensure no overlap
-    if(checkOverlap(shipType, startIndex, isHorizontal)) {
-      return false;
-    }
-    
-  if(isHorizontal) {
+  // check to ensure no overlap
+  if (checkOverlap(shipType, startIndex, isHorizontal)) {
+    return false;
+  }
+
+  if (isHorizontal) {
     // check if ship fits horizontally
-    if((startIndex % 12) + ships[shipType] > 12) {
+    if ((startIndex % 12) + ships[shipType] > 12) {
       return false;
     }
 
-    for(let i = 0; i < ships[shipType]; i++) {
+    for (let i = 0; i < ships[shipType]; i++) {
       enemycells[startIndex + i].classList.add('ship-cell');
     }
   } else {
     // check if ship fits vertically
-    if(Math.floor(startIndex / 12) + ships[shipType] > 12) {
+    if (Math.floor(startIndex / 12) + ships[shipType] > 12) {
       return false;
     }
 
-    for(let i = 0; i < ships[shipType]; i++) {
-      enemycells[startIndex + (i * 12)].classList.add('ship-cell'); // assuming board width is 12
+    for (let i = 0; i < ships[shipType]; i++) {
+      enemycells[startIndex + (i * 12)].classList.add('ship-cell');
     }
   }
   return true;
@@ -148,5 +154,5 @@ function placeShip(shipType, startIndex, isHorizontal) {
 // fire button event listener
 const fireButton = document.querySelector('.fire-btn');
 fireButton.addEventListener('click', () => {
-   // fire();
+  // fire();
 });
