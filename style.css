@@ -6,7 +6,7 @@ body {
 nav {
     background-color: #00198a;
     color: white;
-    font-size: 24px;
+    font-size: 2rem;
     font-weight: bold;
     width: 100%;
     padding: 10px 0;
@@ -40,7 +40,7 @@ nav > a:active {
   border-radius: 10px;
 }
 
-#ship-select {
+#ship-select , #orientation-select {
   appearance: none; /* Removes the default arrow and OS styling */
   background-color: #1a1a1a;
   color: #00ff00;
@@ -50,9 +50,10 @@ nav > a:active {
   cursor: pointer;
 }
 
+
 /* Container styling */
 .board {
-  width: 80%;
+  width: 80vw;
   height: 40vh;
   margin: 20px auto;
   display: grid;
@@ -105,39 +106,18 @@ nav > a:active {
 
 .hit-cell {
   background-color: red; 
+  color: yellow;
 }
 
 .miss-cell {
   background-color: white; 
+  color: black;
 }
 
 .sunk-cell {
   background-color: black; 
+  color: white;
 }
-
-.carrier-ship {
-  background-color: #343a40
-}
-
-.battleship-ship {
-    background-color: #343a40
-}
-
-.cruiser-ship {
-  background-color: #343a40
-}
-
-.submarine-ship {
-  background-color: #343a40
-}
-
-.destroyer-ship {
-  background-color: #343a40
-}
-
-
-
-
 
 /* History.html styling */
 #history-logs {

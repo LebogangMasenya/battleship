@@ -1,0 +1,36 @@
+
+/* Mobile-first design */
+@media screen and (max-width: 600px) {
+  .board {
+    grid-template-columns: 30px repeat(12, 30px);
+    grid-template-rows: 30px repeat(12, 30px);
+  }
+
+  .board-cell {
+    width: 30px;
+    height: 30px;
+  }
+
+  .fire-btn {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+
+@mixin cell-coloring($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+}
+
+.hit-cell {
+  @include cell-coloring(red, yellow);
+}
+
+.miss-cell {
+  @include cell-coloring(white, black);
+}
+
+.sunk-cell {
+  @include cell-coloring(black, white);
+}
+

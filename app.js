@@ -38,6 +38,12 @@ const enemycells = document.querySelectorAll('#enemy-board .board-cell');
 const shipSelect = document.getElementById('ship-select');
 let selectedShip = shipSelect.value;
 
+const orientationSelect = document.getElementById('orientation-select');
+let selectedOrientation = orientationSelect.value;
+
+orientationSelect.addEventListener('change', (e) => {
+  selectedOrientation = e.target.value;
+});
 shipSelect.addEventListener('change', (e) => {
   selectedShip = e.target.value;
 });
@@ -59,6 +65,7 @@ const ships = {
 }
 
 // place player ships
+// @TODO: improve ship placement logic for wrapping and neighboring cells 
 playercells.forEach((cell) => {
   if (cell.classList.contains('ship-cell')) return; // prevent placing multiple ships on same cell
 
@@ -66,14 +73,14 @@ playercells.forEach((cell) => {
 
   cell.addEventListener('click', () => {
     const startIndex = Array.from(playercells).indexOf(cell);
-    const isHorizontal = Math.random() < 0.5; // for simplicity, placing all ships horizontally
+    const isHorizontal = selectedOrientation === 'horizontal' ? true : false;
     const placed = placeShip(selectedShip, startIndex, isHorizontal, playercells);
 
   });
 })
 
 
-
+// enemy board listener 
 enemycells.forEach(cell => {
   cell.addEventListener('click', () => {
     // if the cell is already hit, do nothing
@@ -87,13 +94,14 @@ enemycells.forEach(cell => {
 
       // check if ship has sank and update accordingly
       shipSank(enemycells, cell.getAttribute('id').split('-')[0]);
+      fire(playercells); // enemy fights back
       return;
     }
 
     // if the cell does not contain a ship, mark it as miss
     cell.innerHTML = 'x';
     cell.classList.add('miss-cell');
-
+    fire(playercells); // enemy fights back
   });
 });
 
@@ -101,10 +109,8 @@ enemycells.forEach(cell => {
 
 
 
-
-
 // place ships on enemy board (randomly place 5 ships)
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 6; i++) {
   const shipTypes = Object.keys(ships);
   const shipType = shipTypes[i];
   let placed = false;
@@ -144,7 +150,7 @@ function shipSank(board, shipType) {
   if (allHit) {
     // remove ship-cell class and add sunk-cell class to visually indicate the ship has sank
     shipCells.forEach(cell => {
-      cell.classList.remove('ship-cell');
+      cell.classList.remove('hit-cell');
       cell.classList.add('sunk-cell');
       cell.innerHTML = '*'
     });
@@ -154,7 +160,7 @@ function shipSank(board, shipType) {
   return false;
 }
 
-// check for immediate ship neighboring cells
+// TODO: check for immediate ship neighboring cells
 function checkNeighboringCells(index) {
   return false;
 }
@@ -162,13 +168,16 @@ function checkNeighboringCells(index) {
 
 // for random ship placement
 function placeShip(shipType, startIndex, isHorizontal, board) {
+  if(board[startIndex].classList.contains('ship-cell')) {
+    return false; // there is already a ship at the starting index
+  }
+  
   // check to ensure no overlap
   if (checkOverlap(shipType, startIndex, isHorizontal)) {
     return false;
   }
 
   if (isHorizontal) {
-    // check if ship fits horizontally
     if ((startIndex % 12) + ships[shipType] > 12) {
       return false;
     }
@@ -179,7 +188,6 @@ function placeShip(shipType, startIndex, isHorizontal, board) {
       board[startIndex + i].setAttribute('id', shipType + '-' + (i + 1));
     }
   } else {
-    // check if ship fits vertically
     if (Math.floor(startIndex / 12) + ships[shipType] > 12) {
       return false;
     }
@@ -194,8 +202,30 @@ function placeShip(shipType, startIndex, isHorizontal, board) {
 }
 
 
-// fire button event listener
+function fire(board) {
+  // randomly select a cell on the enemy board to fire at
+  const randomIndex = Math.floor(Math.random() * 144);
+  const cell =  board[randomIndex];
+
+  // if the cell is already hit, do nothing
+  if (cell.style.color === 'red' || cell.classList.contains('miss-cell')) {
+    return;
+  }
+
+  // if the cell contains a ship, mark it as hit
+  if (cell.classList.contains('ship-cell')) {
+    cell.style.backgroundColor = 'red';
+    shipSank(board, cell.getAttribute('id').split('-')[0]);
+    return;
+  }
+
+  // if the cell does not contain a ship, mark it as miss
+  cell.innerHTML = 'x';
+  cell.classList.add('miss-cell');
+}
+
 const fireButton = document.querySelector('.fire-btn');
 fireButton.addEventListener('click', () => {
-  // fire();
+  fire(enemycells);
+  fire(playercells); // enemy randomly fires back
 });
