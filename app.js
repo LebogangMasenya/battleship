@@ -84,6 +84,9 @@ enemycells.forEach(cell => {
     // if the cell contains a ship, mark it as hit
     if (cell.classList.contains('ship-cell')) {
       cell.style.backgroundColor = 'red';
+
+      // check if ship has sank and update accordingly
+      shipSank(enemycells, cell.getAttribute('id').split('-')[0]);
       return;
     }
 
@@ -132,7 +135,22 @@ function checkOverlap(shipType, startIndex, isHorizontal) {
 }
 
 // check and update that ship has sank
-function shipSank(shipType) {
+function shipSank(board, shipType) {
+
+  // check if all cells of the ship have been hit
+  const shipCells = Array.from(board).filter(cell => cell.getAttribute('id') && cell.getAttribute('id').startsWith(shipType));
+  const allHit = shipCells.every(cell => cell.style.backgroundColor === 'red');
+
+  if (allHit) {
+    // remove ship-cell class and add sunk-cell class to visually indicate the ship has sank
+    shipCells.forEach(cell => {
+      cell.classList.remove('ship-cell');
+      cell.classList.add('sunk-cell');
+      cell.innerHTML = '*'
+    });
+
+    return true;
+  }
   return false;
 }
 
@@ -157,6 +175,8 @@ function placeShip(shipType, startIndex, isHorizontal, board) {
 
     for (let i = 0; i < ships[shipType]; i++) {
       board[startIndex + i].classList.add('ship-cell');
+      // mark id of ship for later reference when checking if it has sank
+      board[startIndex + i].setAttribute('id', shipType + '-' + (i + 1));
     }
   } else {
     // check if ship fits vertically
@@ -166,6 +186,8 @@ function placeShip(shipType, startIndex, isHorizontal, board) {
 
     for (let i = 0; i < ships[shipType]; i++) {
       board[startIndex + (i * 12)].classList.add('ship-cell');
+      // mark id of ship for later reference when checking if it has sank
+      board[startIndex + (i * 12)].setAttribute('id', shipType + '-' + (i + 1));
     }
   }
   return true;
