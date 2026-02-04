@@ -1,21 +1,34 @@
 const boards = document.querySelectorAll('.board');
 
-// add cells to both player and enemy boards
+// add cells and axis labels to both player and enemy boards
 boards.forEach(board => {
+    // add letters for y-axis
+  const letters = 'ABCDEFGHIJKL';
+  for (let i = 0; i < 12; i++) {
+    const letterLabel = document.createElement('div');
+    letterLabel.classList.add('letter-label');
+  letterLabel.style.gridRow = i + 2; // Offset by 1 for the number row
+  letterLabel.style.gridColumn = "1";
+  letterLabel.innerHTML = letters[i];
+    board.appendChild(letterLabel);
+  }
+
+  // add numbers for x-axis
+  for (let i = 1; i <=12 ; i++) {
+    const numberLabel = document.createElement('div');
+    numberLabel.style.gridColumn = i + 1; // Offset by 1 for the letter column
+  numberLabel.style.gridRow = "1";
+  numberLabel.innerHTML = i;
+  board.appendChild(numberLabel);
+  }
+
   for (let i = 0; i < 144; i++) {
     const cell = document.createElement('div');
     cell.classList.add('board-cell');
     board.appendChild(cell);
   }
+
 });
-
-// add x and y axis labels
-// add letters for y-axis
-const letters = 'ABCDEFGHIJKL';
-
-
-// add numbers for x-axis
-
 
 
 const playercells = document.querySelectorAll('#player-board .board-cell');
@@ -44,8 +57,6 @@ const ships = {
   'destroyer-ship': 2
 }
 
-
-// add click event listeners to enemy board cells
 
 enemycells.forEach(cell => {
   cell.addEventListener('click', () => {
@@ -79,7 +90,7 @@ shipSelect.addEventListener('change', (e) => {
 });
 
 
-// place ships on enemy board (for demo purposes, randomly place 5 ships)
+// place ships on enemy board (randomly place 5 ships)
 for (let i = 0; i < 5; i++) {
   const shipTypes = Object.keys(ships);
   const shipType = shipTypes[i];
