@@ -27,6 +27,11 @@ nav > a:hover {
     cursor: pointer;
 }
 
+nav > a:active {
+      font-style: italic;
+    background-color: #a7b2bc;
+}
+
 .fire-btn {
   width: 100px;
   height: 40px;

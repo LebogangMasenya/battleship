@@ -7,9 +7,9 @@ boards.forEach(board => {
   for (let i = 0; i < 12; i++) {
     const letterLabel = document.createElement('div');
     letterLabel.classList.add('letter-label');
-  letterLabel.style.gridRow = i + 2; // Offset by 1 for the number row
-  letterLabel.style.gridColumn = "1";
-  letterLabel.innerHTML = letters[i];
+    letterLabel.style.gridRow = i + 2; // Offset by 1 for the number row
+    letterLabel.style.gridColumn = "1";
+    letterLabel.innerHTML = letters[i];
     board.appendChild(letterLabel);
   }
 
@@ -17,9 +17,9 @@ boards.forEach(board => {
   for (let i = 1; i <=12 ; i++) {
     const numberLabel = document.createElement('div');
     numberLabel.style.gridColumn = i + 1; // Offset by 1 for the letter column
-  numberLabel.style.gridRow = "1";
-  numberLabel.innerHTML = i;
-  board.appendChild(numberLabel);
+    numberLabel.style.gridRow = "1";
+    numberLabel.innerHTML = i;
+    board.appendChild(numberLabel);
   }
 
   for (let i = 0; i < 144; i++) {
@@ -34,13 +34,14 @@ boards.forEach(board => {
 const playercells = document.querySelectorAll('#player-board .board-cell');
 const enemycells = document.querySelectorAll('#enemy-board .board-cell');
 
+// ship type selection
+const shipSelect = document.getElementById('ship-select');
+let selectedShip = shipSelect.value;
 
-// place player ships
-playercells.forEach((cell) => {
-  cell.addEventListener('click', () => {
-    cell.classList.add('ship-cell');
-  });
-})
+shipSelect.addEventListener('change', (e) => {
+  selectedShip = e.target.value;
+});
+
 
 /* 
 Carrier: 5 connected tiles (e.g., dark gray or navy)
@@ -56,6 +57,21 @@ const ships = {
   'submarine-ship': 3,
   'destroyer-ship': 2
 }
+
+// place player ships
+playercells.forEach((cell) => {
+  if (cell.classList.contains('ship-cell')) return; // prevent placing multiple ships on same cell
+
+  if(selectedShip === 'none') return; // no ship selected
+
+  cell.addEventListener('click', () => {
+    const startIndex = Array.from(playercells).indexOf(cell);
+    const isHorizontal = Math.random() < 0.5; // for simplicity, placing all ships horizontally
+    const placed = placeShip(selectedShip, startIndex, isHorizontal, playercells);
+
+  });
+})
+
 
 
 enemycells.forEach(cell => {
@@ -81,13 +97,7 @@ enemycells.forEach(cell => {
 
 
 
-// ship type selection
-const shipSelect = document.getElementById('ship-select');
-let selectedShip = shipSelect.value;
 
-shipSelect.addEventListener('change', (e) => {
-  selectedShip = e.target.value;
-});
 
 
 // place ships on enemy board (randomly place 5 ships)
@@ -99,7 +109,7 @@ for (let i = 0; i < 5; i++) {
   while (!placed) {
     const startIndex = Math.floor(Math.random() * 144);
     const isHorizontal = Math.random() < 0.5;
-    placed = placeShip(shipType, startIndex, isHorizontal);
+    placed = placeShip(shipType, startIndex, isHorizontal, enemycells);
   }
 }
 
@@ -133,7 +143,7 @@ function checkNeighboringCells(index) {
 
 
 // for random ship placement
-function placeShip(shipType, startIndex, isHorizontal) {
+function placeShip(shipType, startIndex, isHorizontal, board) {
   // check to ensure no overlap
   if (checkOverlap(shipType, startIndex, isHorizontal)) {
     return false;
@@ -146,7 +156,7 @@ function placeShip(shipType, startIndex, isHorizontal) {
     }
 
     for (let i = 0; i < ships[shipType]; i++) {
-      enemycells[startIndex + i].classList.add('ship-cell');
+      board[startIndex + i].classList.add('ship-cell');
     }
   } else {
     // check if ship fits vertically
@@ -155,7 +165,7 @@ function placeShip(shipType, startIndex, isHorizontal) {
     }
 
     for (let i = 0; i < ships[shipType]; i++) {
-      enemycells[startIndex + (i * 12)].classList.add('ship-cell');
+      board[startIndex + (i * 12)].classList.add('ship-cell');
     }
   }
   return true;
