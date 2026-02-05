@@ -3,6 +3,7 @@ const boards = document.querySelectorAll('.board');
 // add cells and axis labels to both player and enemy boards
 boards.forEach(board => {
     // add letters for y-axis
+    /*
   const letters = 'ABCDEFGHIJKL';
   for (let i = 0; i < 12; i++) {
     const letterLabel = document.createElement('div');
@@ -13,6 +14,7 @@ boards.forEach(board => {
     board.appendChild(letterLabel);
   }
 
+  
   // add numbers for x-axis
   for (let i = 1; i <=12 ; i++) {
     const numberLabel = document.createElement('div');
@@ -21,8 +23,8 @@ boards.forEach(board => {
     numberLabel.innerHTML = i;
     board.appendChild(numberLabel);
   }
-
-  for (let i = 0; i < 144; i++) {
+*/
+  for (let index = 0; index < 144; index++) {
     const cell = document.createElement('div');
     cell.classList.add('board-cell');
     board.appendChild(cell);
@@ -107,12 +109,10 @@ enemycells.forEach(cell => {
 
 
 
-
-
 // place ships on enemy board (randomly place 5 ships)
-for (let i = 0; i < 6; i++) {
+for (let index = 0; index < 6; index++) {
   const shipTypes = Object.keys(ships);
-  const shipType = shipTypes[i];
+  const shipType = shipTypes[index];
   let placed = false;
 
   while (!placed) {
@@ -125,14 +125,14 @@ for (let i = 0; i < 6; i++) {
 
 function checkOverlap(shipType, startIndex, isHorizontal) {
   if (isHorizontal) {
-    for (let i = 0; i < ships[shipType]; i++) {
-      if (enemycells[startIndex + i].classList.contains('ship-cell')) {
+    for (let index = 0; index < ships[shipType]; index++) {
+      if (enemycells[startIndex + index].classList.contains('ship-cell')) {
         return true;
       }
     }
   } else {
-    for (let i = 0; i < ships[shipType]; i++) {
-      if (enemycells[startIndex + (i * 12)].classList.contains('ship-cell')) { // assuming board width is 12
+    for (let index = 0; index < ships[shipType]; index++) {
+      if (enemycells[startIndex + (index * 12)].classList.contains('ship-cell')) { // assuming board width is 12
         return true;
       }
     }
@@ -142,7 +142,6 @@ function checkOverlap(shipType, startIndex, isHorizontal) {
 
 // check and update that ship has sank
 function shipSank(board, shipType) {
-
   // check if all cells of the ship have been hit
   const shipCells = Array.from(board).filter(cell => cell.getAttribute('id') && cell.getAttribute('id').startsWith(shipType));
   const allHit = shipCells.every(cell => cell.style.backgroundColor === 'red');
@@ -182,28 +181,27 @@ function placeShip(shipType, startIndex, isHorizontal, board) {
       return false;
     }
 
-    for (let i = 0; i < ships[shipType]; i++) {
-      board[startIndex + i].classList.add('ship-cell');
+    for (let index = 0; index < ships[shipType]; index++) {
+      board[startIndex + index].classList.add('ship-cell');
       // mark id of ship for later reference when checking if it has sank
-      board[startIndex + i].setAttribute('id', shipType + '-' + (i + 1));
+      board[startIndex + index].setAttribute('id', shipType + '-' + (index + 1));
     }
   } else {
     if (Math.floor(startIndex / 12) + ships[shipType] > 12) {
       return false;
     }
 
-    for (let i = 0; i < ships[shipType]; i++) {
-      board[startIndex + (i * 12)].classList.add('ship-cell');
+    for (let index = 0; index < ships[shipType]; index++) {
+      board[startIndex + (index * 12)].classList.add('ship-cell');
       // mark id of ship for later reference when checking if it has sank
-      board[startIndex + (i * 12)].setAttribute('id', shipType + '-' + (i + 1));
+      board[startIndex + (index * 12)].setAttribute('id', shipType + '-' + (index + 1));
     }
   }
   return true;
 }
 
-
+// randomized firing on board
 function fire(board) {
-  // randomly select a cell on the enemy board to fire at
   const randomIndex = Math.floor(Math.random() * 144);
   const cell =  board[randomIndex];
 

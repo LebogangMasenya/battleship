@@ -10,35 +10,41 @@
 
 <body>
     <nav>
-        <a href="#game">GAME</a>
+        <p id="title">BATTLESHIPS</p>
+        <a href="#game">Game</a>
         <a href="history.html">Match History</a>
     </nav>
 
     <div id="game">
-        <h1>BATTLESHIPS</h1>
+        <div class="controls">
+            <button class="fire-btn">FIRE!!!</button>
+            <select name="" id="ship-select">
+                <option value="carrier-ship">Carrier</option>
+                <option value="battleship-ship">Battleship</option>
+                <option value="cruiser-ship">Cruiser</option>
+                <option value="submarine-ship">Submarine</option>
+                <option value="destroyer-ship">Destroyer</option>
+            </select>
+            
+            <select name="" id="orientation-select">
+                <option value="horizontal">Horizontal</option>
+                <option value="vertical">Vertical</option>
+            </select>
+        </div>
 
-        <button class="fire-btn">FIRE!!!</button>
-        <select name="" id="ship-select">
-            <option value="carrier-ship">Carrier</option>
-            <option value="battleship-ship">Battleship</option>
-            <option value="cruiser-ship">Cruiser</option>
-            <option value="submarine-ship">Submarine</option>
-            <option value="destroyer-ship">Destroyer</option>
-        </select>
-        
-        <select name="" id="orientation-select">
-            <option value="horizontal">Horizontal</option>
-            <option value="vertical">Vertical</option>
-        </select>
 
         <div class="boards">
+            <div class="board-container">
                 <h2>Your Fleet</h2>
                 <div class="board" id="player-board">
                 </div>
+            </div>
 
+            <div class="board-container">
                 <h2>Enemy Fleet</h2>
                 <div class="board" id="enemy-board">
                 </div>
+            </div>
         </div>
     </div>
 </body>

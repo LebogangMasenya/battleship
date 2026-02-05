@@ -2,14 +2,14 @@
 
 export function checkOverlap(shipType, startIndex, isHorizontal) {
   if (isHorizontal) {
-    for (let i = 0; i < ships[shipType]; i++) {
-      if (enemycells[startIndex + i].classList.contains('ship-cell')) {
+    for (let index = 0; index < ships[shipType]; index++) {
+      if (enemycells[startIndex + index].classList.contains('ship-cell')) {
         return true;
       }
     }
   } else {
-    for (let i = 0; i < ships[shipType]; i++) {
-      if (enemycells[startIndex + (i * 12)].classList.contains('ship-cell')) { // assuming board width is 12
+    for (let index = 0; index < ships[shipType]; index++) {
+      if (enemycells[startIndex + (index * 12)].classList.contains('ship-cell')) { // assuming board width is 12
         return true;
       }
     }
