@@ -1,14 +1,23 @@
 // Module for game logic and functionality
-function checkOverlap(shipType, startIndex, isHorizontal) {
+
+const ships = {
+  "carrier-ship": 5,
+  "battleship-ship": 4,
+  "cruiser-ship": 3,
+  "submarine-ship": 3,
+  "destroyer-ship": 2,
+};
+
+function checkOverlap(shipType, startIndex, isHorizontal, board) {
   if (isHorizontal) {
     for (let index = 0; index < ships[shipType]; index++) {
-      if (enemycells[startIndex + index].classList.contains("ship-cell")) {
+      if (board[startIndex + index].classList.contains("ship-cell")) {
         return true;
       }
     }
   } else {
     for (let index = 0; index < ships[shipType]; index++) {
-      if (enemycells[startIndex + index * 12].classList.contains("ship-cell")) {
+      if (board[startIndex + index * 12].classList.contains("ship-cell")) {
         // TODO: causes classlist undefined error
         return true;
       }
@@ -54,7 +63,7 @@ export function placeShip(shipType, startIndex, isHorizontal, board) {
   }
 
   // check to ensure no overlap
-  if (checkOverlap(shipType, startIndex, isHorizontal)) {
+  if (checkOverlap(shipType, startIndex, isHorizontal, board)) {
     return false;
   }
 
@@ -96,6 +105,8 @@ export function fire(board) {
 
   // if the cell contains a ship, mark it as hit
   if (cell.classList.contains("ship-cell")) {
+    cell.classList.add("hit-cell");
+    cell.style.backgroundColor = "red";
     shipSank(board, cell.getAttribute("id").split("-")[0]);
     return;
   }

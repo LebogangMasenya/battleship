@@ -1,6 +1,21 @@
 import "./style.scss";
 import { placeShip, shipSank, fire } from "./game-logic";
 
+
+const toggleTheme = document.getElementById("toggle-theme");
+toggleTheme.addEventListener("change", (e) => {
+  if ( e.target.checked || cookieStore.get("theme")?.value === "dark") {
+    document.body.classList.add("dark-theme");
+    document.body.style.backgroundColor = "#121212";
+    cookieStore.set("theme", "dark", { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) });
+  } else {
+    document.body.classList.remove("theme");
+    document.body.style.backgroundColor = "#f0f0f0";
+   
+    cookieStore.set("theme", "light", { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) });
+  }
+});
+
 const boards = document.querySelectorAll(".board");
 
 boards.forEach((board) => {
