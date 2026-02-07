@@ -1,3 +1,5 @@
+import './style.scss';
+
 const boards = document.querySelectorAll('.board');
 
 boards.forEach(board => {
@@ -12,7 +14,7 @@ boards.forEach(board => {
     board.appendChild(letterLabel);
   }
 
-  
+
   // add numbers for y-axis
   for (let numberIndex = 1; numberIndex <=12 ; numberIndex++) {
     const numberLabel = document.createElement('div');
@@ -27,11 +29,9 @@ boards.forEach(board => {
     cell.classList.add('board-cell');
     const row = Math.floor(index / 12) + 2;
     const col = (index % 12) + 2;
-
     cell.style.gridRow = row;
     cell.style.gridColumn = col;
     board.appendChild(cell);
-
   }
 
 });
@@ -105,7 +105,7 @@ enemycells.forEach(cell => {
     }
 
     // if the cell does not contain a ship, mark it as miss
-    cell.innerHTML = 'x';
+    cell.innerText = 'x';
     cell.classList.add('miss-cell');
     fire(playercells); // enemy fights back
   });
@@ -136,7 +136,7 @@ function checkOverlap(shipType, startIndex, isHorizontal) {
     }
   } else {
     for (let index = 0; index < ships[shipType]; index++) {
-      if (enemycells[startIndex + (index * 12)].classList.contains('ship-cell')) { // assuming board width is 12
+      if (enemycells[startIndex + (index * 12)].classList.contains('ship-cell')) { // TODO: causes classlist undefined error
         return true;
       }
     }
@@ -155,7 +155,7 @@ function shipSank(board, shipType) {
     shipCells.forEach(cell => {
       cell.classList.remove('hit-cell');
       cell.classList.add('sunk-cell');
-      cell.innerHTML = '*'
+      cell.innerText = '*'
     });
 
     return true;
@@ -216,13 +216,12 @@ function fire(board) {
 
   // if the cell contains a ship, mark it as hit
   if (cell.classList.contains('ship-cell')) {
-    cell.style.backgroundColor = 'red';
     shipSank(board, cell.getAttribute('id').split('-')[0]);
     return;
   }
 
   // if the cell does not contain a ship, mark it as miss
-  cell.innerHTML = 'x';
+  cell.innerText = 'x';
   cell.classList.add('miss-cell');
 }
 

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "eslint": "^10.0.0",
-    "prettier": "^3.8.1"
+    "prettier": "^3.8.1",
+    "sass": "^1.97.3"
   }
 }

@@ -1,8 +1,36 @@
+@mixin board-style($width: 80vw, $height: 40vh) {
+  width: $width;
+  height: $height;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns:  repeat(13, 1fr);
+  /* 1st row for numbers, then 12 equal board cells */
+  grid-template-rows: repeat(13, 1fr);  
+  gap: 2px;
+  border: #e9ecef 2px solid;
+  border-radius: 16px;
+  min-width: 400px;
+}
+
+@mixin cell-coloring($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+}
+
+@mixin select-style {
+  color: #1c1f1c;
+  padding: 10px;
+  border: 2px solid #333;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 2rem;
+  margin: 10px;
+}
+
 body {
-    text-align: center;
-    background: off-white;
-    font-family: 'Sans-serif', Arial, Helvetica;
-    
+  text-align: center;
+  background: off-white;
+  font-family: 'Sans-Serif', Arial;
 }
 
 #title {
@@ -11,15 +39,14 @@ body {
     color: white;
     margin: 0;
     justify-self: left;
-    
 }
+
 nav {
-    background-color:  #05315e;
+    background-color: #00198a;
     color: white;
     font-size: 2rem;
     font-weight: bold;
     padding: 10px 0;
-   
 }
 
 nav > a {
@@ -31,23 +58,21 @@ nav > a {
     border-radius: 10px;
     justify-self: right;
     margin: 10px;
+    &:hover {
+        background-color: #5c6092;
+        cursor: pointer;
+    }
+     &:active {
+        font-style: italic;
+        background-color: #a7b2bc;
+    }
 }
 
-nav > a:hover {
-    background-color: #5c6092;
-    cursor: pointer;
-}
-
-nav > a:active {
-  font-style: italic;
-  background-color: #a7b2bc;
-}
 
 h2 {
   font-size: 2rem;
   color:  #05315e;
 }
-
 
 .controls {
   display: grid;
@@ -66,41 +91,31 @@ h2 {
   font-size: 2rem;
   border-width: 2px;
   margin: 10px;
+  &:hover {
+    background-color: white;
+    color:  #1474d4;
+    border-color: #1474d4;
+    cursor: pointer;
+  }
 }
 
-.fire-btn:hover {
-  background-color: white;
-  color:  #1474d4;
-  border-color: #1474d4;
-  cursor: pointer;
-}
+
+
 
 #ship-select {
-  color: #1c1f1c;
-  padding: 10px;
-  border: 2px solid #333;
-  border-radius: 5px;
-  cursor: pointer;
+  @include select-style;
   grid-row-start: 2;
   grid-column: 1;
   grid-row-end: 3;
   grid-column-end: 2;
-  font-size: 2rem;
-   margin: 10px;
 }
 
 #orientation-select {
-  color: #1c1f1c;
-  padding: 10px;
-  border: 2px solid #333;
-  border-radius: 5px;
-  cursor: pointer;
+  @include select-style;
   grid-row-start: 2;
   grid-column: 2;
   grid-row-end: 3;
   grid-column-end: 3;
-  font-size: 2rem;
-   margin: 10px;
 }
 
 .boards  {
@@ -113,17 +128,7 @@ h2 {
 
 /* Container styling -- Mobile first design */
 .board {
-  width: 90vw;
-  height: 50vh;
-  margin: 20px auto;
-  display: grid;
-  grid-template-columns:  repeat(13, 1fr);
-  /* 1st row for numbers, then 12 equal board cells */
-  grid-template-rows: repeat(13, 1fr);  
-  gap: 2px;
-  border: #e9ecef 2px solid;
-  border-radius: 16px;
-  min-width: 400px;
+  @include board-style(90vw, 50vh);
 }
 
 .board-container {
@@ -153,24 +158,22 @@ h2 {
     gap: 20px;
   }
   .board {
-    grid-template-columns: 1fr repeat(12, 1fr);
-    grid-template-rows: 1fr repeat(12, 1fr);
-    width: 40vw;
-    height: 70vh;
+    @include board-style(40vw, 70vh);
   }
 
   #enemy-board {
     order: 2;
   }
+
   #player-board {
     order: 1;
   }
+
   .board-cell {
     width: 30px;
     height: 30px;
   }
 
- 
 }
 
 /* Individual Cell Styling */
@@ -187,10 +190,8 @@ h2 {
   cursor: crosshair;
 }
 
-
-
 #player-board > .ship-cell {
-  background-color:  rgb(245, 172, 1);
+  background-color: rgb(245, 172, 1);
 }
 
 
@@ -212,21 +213,18 @@ h2 {
   color: #333;
 }
 
-
 .hit-cell {
-  background-color: red; 
-  color: yellow;
+  @include cell-coloring(red, yellow);
 }
 
 .miss-cell {
-  background-color: white; 
-  color: rgb(255, 255, 255);
+  @include cell-coloring(white, rgb(255, 255, 255));
 }
 
 .sunk-cell {
-  background-color: black; 
-  color: white;
+  @include cell-coloring(black, white);
 }
+
 
 /* History.html styling */
 #history-logs {
@@ -262,3 +260,7 @@ h2 {
 .log-entry span:nth-child(1) {
   text-align: left;
 }
+
+
+
+
