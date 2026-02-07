@@ -27,9 +27,8 @@ export function shipSank(board, shipType) {
   if (allHit) {
     // remove ship-cell class and add sunk-cell class to visually indicate the ship has sank
     shipCells.forEach(cell => {
-      cell.classList.remove('hit-cell');
-      cell.classList.add('sunk-cell');
-      cell.innerHTML = '*'
+      cell.setAttribute('class', 'sunk-cell');
+      cell.textContent  = '*'
     });
 
     return true;
@@ -97,6 +96,15 @@ export function fire(board) {
   }
 
   // if the cell does not contain a ship, mark it as miss
-  cell.innerHTML = 'x';
+  cell.textContent = 'x';
   cell.classList.add('miss-cell');
+}
+
+
+// check winner
+export function checkWinner(playerBoard, enemyBoard) {
+
+
+
+  
 }

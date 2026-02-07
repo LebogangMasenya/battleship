@@ -45,6 +45,7 @@ nav > a:active {
 
 h2 {
   font-size: 2rem;
+  color:  #05315e;
 }
 
 
@@ -169,14 +170,7 @@ h2 {
     height: 30px;
   }
 
-  .controls {
-      display: grid;
-  grid-template: 1fr 0.5fr / 1fr 1fr;;
-  width: 20vw;
-  height: 20vh;
-  justify-self: center;
-
-  }
+ 
 }
 
 /* Individual Cell Styling */
