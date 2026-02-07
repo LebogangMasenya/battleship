@@ -1,33 +1,37 @@
 const boards = document.querySelectorAll('.board');
 
-// add cells and axis labels to both player and enemy boards
 boards.forEach(board => {
-    // add letters for y-axis
-    /*
+  // add letters for x-axis
   const letters = 'ABCDEFGHIJKL';
-  for (let i = 0; i < 12; i++) {
+  for (let letterIndex = 0; letterIndex < 12; letterIndex++) {
     const letterLabel = document.createElement('div');
     letterLabel.classList.add('letter-label');
-    letterLabel.style.gridRow = i + 2; // Offset by 1 for the number row
-    letterLabel.style.gridColumn = "1";
-    letterLabel.innerHTML = letters[i];
+    letterLabel.style.gridColumn = letterIndex + 2; 
+    letterLabel.style.gridRow = "1";
+    letterLabel.innerText = letters[letterIndex];
     board.appendChild(letterLabel);
   }
 
   
-  // add numbers for x-axis
-  for (let i = 1; i <=12 ; i++) {
+  // add numbers for y-axis
+  for (let numberIndex = 1; numberIndex <=12 ; numberIndex++) {
     const numberLabel = document.createElement('div');
-    numberLabel.style.gridColumn = i + 1; // Offset by 1 for the letter column
-    numberLabel.style.gridRow = "1";
-    numberLabel.innerHTML = i;
+    numberLabel.style.gridRow = numberIndex + 1; 
+    numberLabel.style.gridColumn = "1";
+    numberLabel.innerText = numberIndex;
     board.appendChild(numberLabel);
   }
-*/
+
   for (let index = 0; index < 144; index++) {
     const cell = document.createElement('div');
     cell.classList.add('board-cell');
+    const row = Math.floor(index / 12) + 2;
+    const col = (index % 12) + 2;
+
+    cell.style.gridRow = row;
+    cell.style.gridColumn = col;
     board.appendChild(cell);
+
   }
 
 });

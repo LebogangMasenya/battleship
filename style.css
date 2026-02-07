@@ -117,9 +117,9 @@ h2 {
   height: 50vh;
   margin: 20px auto;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns:  repeat(13, 1fr);
   /* 1st row for numbers, then 12 equal board cells */
-  grid-template-rows: repeat(12, 1fr);  
+  grid-template-rows: repeat(13, 1fr);  
   gap: 2px;
   border: #e9ecef 2px solid;
   border-radius: 16px;
@@ -153,8 +153,8 @@ h2 {
     gap: 20px;
   }
   .board {
-    grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: repeat(12, 1fr);
+    grid-template-columns: 1fr repeat(12, 1fr);
+    grid-template-rows: 1fr repeat(12, 1fr);
     width: 40vw;
     height: 70vh;
   }
@@ -183,7 +183,7 @@ h2 {
 }
 
 #enemy-board > .board-cell:hover {
-  background-color: #e2e6ea; 
+  background-color: #5091d2; 
   cursor: crosshair;
 }
 
