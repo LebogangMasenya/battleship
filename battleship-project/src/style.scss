@@ -3,9 +3,9 @@
   height: $height;
   margin: 20px auto;
   display: grid;
-  grid-template-columns:  repeat(13, 1fr);
+  grid-template-columns: repeat(13, 1fr);
   /* 1st row for numbers, then 12 equal board cells */
-  grid-template-rows: repeat(13, 1fr);  
+  grid-template-rows: repeat(13, 1fr);
   gap: 2px;
   border: #e9ecef 2px solid;
   border-radius: 16px;
@@ -30,53 +30,52 @@
 body {
   text-align: center;
   background: off-white;
-  font-family: 'Sans-Serif', Arial;
+  font-family: "Sans-Serif", Arial;
 }
 
 #title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: white;
-    margin: 0;
-    justify-self: left;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  justify-self: left;
 }
 
 nav {
-    background-color: #00198a;
-    color: white;
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 10px 0;
+  background-color: #00198a;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px 0;
 }
 
 nav > a {
-    color: white;
-    text-decoration: none;
-    padding: 15px;
-    display: flex;
-    border: #b7bdc2 1px solid;
-    border-radius: 10px;
-    justify-self: right;
-    margin: 10px;
-    &:hover {
-        background-color: #5c6092;
-        cursor: pointer;
-    }
-     &:active {
-        font-style: italic;
-        background-color: #a7b2bc;
-    }
+  color: white;
+  text-decoration: none;
+  padding: 15px;
+  display: flex;
+  border: #b7bdc2 1px solid;
+  border-radius: 10px;
+  justify-self: right;
+  margin: 10px;
+  &:hover {
+    background-color: #5c6092;
+    cursor: pointer;
+  }
+  &:active {
+    font-style: italic;
+    background-color: #a7b2bc;
+  }
 }
-
 
 h2 {
   font-size: 2rem;
-  color:  #05315e;
+  color: #05315e;
 }
 
 .controls {
   display: grid;
-  grid-template: 1fr 0.5fr / 1fr 1fr;;
+  grid-template: 1fr 0.5fr / 1fr 1fr;
   justify-self: center;
 }
 
@@ -93,14 +92,11 @@ h2 {
   margin: 10px;
   &:hover {
     background-color: white;
-    color:  #1474d4;
+    color: #1474d4;
     border-color: #1474d4;
     cursor: pointer;
   }
 }
-
-
-
 
 #ship-select {
   @include select-style;
@@ -118,7 +114,7 @@ h2 {
   grid-column-end: 3;
 }
 
-.boards  {
+.boards {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -173,27 +169,25 @@ h2 {
     width: 30px;
     height: 30px;
   }
-
 }
 
 /* Individual Cell Styling */
 .board > .board-cell {
   width: 100%;
   height: 100%;
-  background-color:  #05315e;
+  background-color: #05315e;
   border: #dee2e6 1px solid;
   box-sizing: border-box;
 }
 
 #enemy-board > .board-cell:hover {
-  background-color: #5091d2; 
+  background-color: #5091d2;
   cursor: crosshair;
 }
 
 #player-board > .ship-cell {
   background-color: rgb(245, 172, 1);
 }
-
 
 /* x axis labels */
 .number-label {
@@ -225,7 +219,6 @@ h2 {
   @include cell-coloring(black, white);
 }
 
-
 /* History.html styling */
 #history-logs {
   display: flex;
@@ -236,9 +229,10 @@ h2 {
 }
 
 /* Base grid for both header and rows */
-.heading, .log-entry {
+.heading,
+.log-entry {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr; 
+  grid-template-columns: 2fr 1fr 1fr 1fr;
   align-items: center;
   padding: 12px;
   border-bottom: 1px solid #eee;
@@ -251,7 +245,8 @@ h2 {
   border-radius: 8px 8px 0 0;
 }
 
-.heading, .log-entry {
+.heading,
+.log-entry {
   grid-template-areas: "date p-score e-score res";
   text-align: center;
 }
@@ -260,7 +255,3 @@ h2 {
 .log-entry span:nth-child(1) {
   text-align: left;
 }
-
-
-
-

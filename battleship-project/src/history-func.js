@@ -1,3 +1,3 @@
-import './style.scss';
+import "./style.scss";
 
-// fetch history from json file 
+// fetch history from json file
