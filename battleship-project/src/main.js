@@ -9,9 +9,8 @@ toggleTheme.addEventListener("change", (e) => {
     document.body.style.backgroundColor = "#121212";
     cookieStore.set("theme", "dark", { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) });
   } else {
-    document.body.classList.remove("theme");
+    document.body.classList.remove("dark-theme");
     document.body.style.backgroundColor = "#f0f0f0";
-   
     cookieStore.set("theme", "light", { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) });
   }
 });
@@ -33,6 +32,7 @@ boards.forEach((board) => {
   // add numbers for y-axis
   for (let numberIndex = 1; numberIndex <= 12; numberIndex++) {
     const numberLabel = document.createElement("div");
+    numberLabel.classList.add("number-label");
     numberLabel.style.gridRow = numberIndex + 1;
     numberLabel.style.gridColumn = "1";
     numberLabel.innerText = numberIndex;
@@ -93,14 +93,14 @@ playercells.forEach((cell) => {
 enemycells.forEach((cell) => {
   cell.addEventListener("click", () => {
     // if the cell is already hit, do nothing
-    if (cell.style.color === "red" || cell.classList.contains("miss-cell")) {
+    if (cell.style.backgroundColor === "red" || cell.classList.contains("miss-cell")) {
       return;
     }
 
     // if the cell contains a ship, mark it as hit
     if (cell.classList.contains("ship-cell")) {
       cell.classList.add("hit-cell");
-
+      cell.style.backgroundColor = "red";
       // check if ship has sank and update accordingly
       shipSank(enemycells, cell.getAttribute("id").split("-")[0]);
       fire(playercells); // enemy fights back
