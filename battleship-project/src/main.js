@@ -1,6 +1,20 @@
 import "./style.scss";
 import { placeShip, shipSank, fire } from "./game-logic";
 
+import Swal from 'sweetalert2';
+
+
+// on load, display modal and button to start game
+Swal.fire({
+  title: 'Welcome to Battleships!',
+  text: 'Prepare your fleet for command.',
+  confirmButtonText: 'Start Game',
+  background: 'var(--off-white)', // Connects to your existing variables
+  color: 'var(--secondary-color)',
+  border: '2px solid var(--primary-color)',
+  borderRadius: '16px',
+});
+
 
 const toggleTheme = document.getElementById("toggle-theme");
 toggleTheme.addEventListener("change", (e) => {

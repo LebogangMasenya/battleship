@@ -60,21 +60,24 @@ body {
   }
 }
 
-#title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: white;
-  margin: 0;
-  justify-self: left;
-}
 
 nav {
+  display: flex;
   background-color: var(--primary-color);
   color: white;
   font-size: 1.4rem;
   font-weight: bold;
   @include dark-mode {
     background-color: var(--secondary-color);
+  }
+
+  #title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    justify-self: left;
+    margin-right: auto;
   }
 }
 
@@ -99,9 +102,10 @@ nav > a {
   position: relative;
   display: flex;
   justify-self: right;
-  margin-right: 10px;
+  margin-right: 20px;
   box-sizing: border-box;
 }
+
 .switch input[type="checkbox"] {
   position: absolute;
   left: 0;
@@ -112,12 +116,14 @@ nav > a {
   cursor: pointer;
   opacity: 0;
 }
+
 .switch label {
   position: relative;
   display: flex;
   align-items: center;
   box-sizing: border-box;
 }
+
 .switch label:before {
   content: '';
   width: 75px;

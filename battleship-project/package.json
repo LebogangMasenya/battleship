@@ -14,8 +14,10 @@
     "vite": "^7.2.4"
   },
   "dependencies": {
+    "css-box-model": "^1.2.1",
     "eslint": "^10.0.0",
     "prettier": "3.8.1",
-    "sass": "^1.97.3"
+    "sass": "^1.97.3",
+    "sweetalert2": "^11.26.18"
   }
 }
