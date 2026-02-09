@@ -7,12 +7,10 @@ import Swal from 'sweetalert2';
 // on load, display modal and button to start game
 Swal.fire({
   title: 'Welcome to Battleships!',
-  text: 'Prepare your fleet for command.',
+  text: 'Enemey ships have been spotted in the waters. Place your ships and attack to sink them before they sink you!',
   confirmButtonText: 'Start Game',
-  background: 'var(--off-white)', // Connects to your existing variables
+  background: 'var(--off-white)', 
   color: 'var(--secondary-color)',
-  border: '2px solid var(--primary-color)',
-  borderRadius: '16px',
 });
 
 
@@ -21,11 +19,9 @@ toggleTheme.addEventListener("change", (e) => {
   if ( e.target.checked || cookieStore.get("theme")?.value === "dark") {
     document.body.classList.add("dark-theme");
     document.body.style.backgroundColor = "#121212";
-    cookieStore.set("theme", "dark", { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) });
   } else {
     document.body.classList.remove("dark-theme");
     document.body.style.backgroundColor = "#f0f0f0";
-    cookieStore.set("theme", "light", { expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000) });
   }
 });
 
