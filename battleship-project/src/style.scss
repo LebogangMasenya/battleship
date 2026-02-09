@@ -1,71 +1,25 @@
-@mixin board-style($width: 80vw, $height: 40vh) {
-  width: $width;
-  height: $height;
-  margin: 20px auto;
-  display: grid;
-  grid-template-columns: repeat(13, 1fr);
-  /* 1st row for numbers, then 12 equal board cells */
-  grid-template-rows: repeat(13, 1fr);
-  gap: 2px;
-  border: #e9ecef 2px solid;
-  border-radius: 16px;
-  min-width: 400px;
-}
+@import "./mixin";
 
-@mixin cell-coloring($bg-color, $text-color) {
-  background-color: $bg-color;
-  color: $text-color;
-}
-
-:root {
-  --off-white: #f0f0f0;
-  --dark-mode-bg: #121212;
-  --primary-color: #1474d4;
-  --secondary-color: #333;
-  --accent-color: rgb(245, 172, 1);
-}
-
-@mixin select-style {
-  color: #1c1f1c;
-  padding: 10px;
-  border: 2px solid var(--secondary-color);
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 2rem;
-  margin: 10px;
-}
-
-@mixin axis-style {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--secondary-color);
-  @include dark-mode {
-    color: var(--off-white);
-  }
-}
-
-@mixin dark-mode {
-  body.dark-theme & {
-    @content;
-  }
-}
-
+/* goated debug statement */
+// * { outline: 1px solid red !important; }
 body {
   text-align: center;
   background-color: var(--off-white);
   font-family: "Sans-Serif", Arial;
+  padding: 0;
+  margin: 0 0 50px 0;
   @include dark-mode {
     background-color: var(--dark-mode-bg);
   }
 }
 
-#title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: white;
-  margin: 0;
-  justify-self: left;
+h1 {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-top: 20px;
+  @include dark-mode {
+    color: var(--accent-color);
+  }
 }
 
 nav {
@@ -73,15 +27,25 @@ nav {
   color: white;
   font-size: 1.4rem;
   font-weight: bold;
+  margin: 0;
   @include dark-mode {
     background-color: var(--secondary-color);
+  }
+
+  #title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    justify-self: left;
+    margin-right: auto;
   }
 }
 
 nav > a {
   color: white;
   text-decoration: none;
-  padding: 15px;
+  padding: 10px;
   display: flex;
   justify-self: right;
   margin: 10px;
@@ -102,6 +66,7 @@ nav > a {
   margin-right: 10px;
   box-sizing: border-box;
 }
+
 .switch input[type="checkbox"] {
   position: absolute;
   left: 0;
@@ -112,12 +77,14 @@ nav > a {
   cursor: pointer;
   opacity: 0;
 }
+
 .switch label {
   position: relative;
   display: flex;
   align-items: center;
   box-sizing: border-box;
 }
+
 .switch label:before {
   content: '';
   width: 75px;
@@ -162,15 +129,13 @@ h2 {
 
 .controls {
   display: grid;
-  grid-template: 1fr 0.5fr / 1fr 1fr;
+  grid-template: 1fr 1fr 1fr;
+  grid-template-columns: 1fr; 
   justify-self: center;
+  width: 60vw;
 }
 
 .fire-btn {
-  grid-row-start: 1;
-  grid-column-start: 1;
-  grid-row-end: 2;
-  grid-column-end: 3;
   background-color: var(--primary-color);
   color: white;
   border-radius: 10px;
@@ -187,18 +152,10 @@ h2 {
 
 #ship-select {
   @include select-style;
-  grid-row-start: 2;
-  grid-column: 1;
-  grid-row-end: 3;
-  grid-column-end: 2;
 }
 
 #orientation-select {
   @include select-style;
-  grid-row-start: 2;
-  grid-column: 2;
-  grid-row-end: 3;
-  grid-column-end: 3;
 }
 
 .boards {
@@ -224,30 +181,57 @@ h2 {
 #player-board {
   border-color: rgb(245, 172, 1);
   border-width: 0.5rem;
-  order: 2;
 }
 
 #enemy-board {
   border-color: red;
   border-width: 0.5rem;
-  order: 1;
 }
 
 /* When the screen width is at least x -> switch to the desktop design */
 @media screen and (min-width: 800px) {
+  .controls {
+    width: 40vw;
+  }
+
   .boards {
     display: flex;
     flex-direction: row;
     gap: 20px;
   }
+
   .board {
-    @include board-style(40vw, 70vh);
+    @include board-style(40vw, 65vh);
   }
 
+  nav {
+    display: flex;
+    align-items: center;  
+  }
 
-  .board-cell {
-    width: 30px;
-    height: 30px;
+  .controls {
+    grid-template: 1fr 1fr / 1fr 1fr;
+  }
+
+  .fire-btn {
+    grid-row-start: 1;
+    grid-column-start: 1;
+    grid-row-end: 2;
+    grid-column-end: 3;
+  }
+
+  #ship-select {
+    grid-row-start: 2;
+    grid-column: 1;
+    grid-row-end: 3;
+    grid-column-end: 2;
+  }
+
+  #orientation-select {
+    grid-row-start: 2;
+    grid-column: 2;
+    grid-row-end: 3;
+    grid-column-end: 3;
   }
 }
 
@@ -257,7 +241,6 @@ h2 {
   height: 100%;
   background-color: var(--primary-color);
   border: var(--off-white) 1px solid;
-  box-sizing: border-box;
 }
 
 #enemy-board > .board-cell:hover {

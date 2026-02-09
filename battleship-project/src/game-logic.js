@@ -116,5 +116,7 @@ export function fire(board) {
   cell.classList.add("miss-cell");
 }
 
-// check winner
+// @TODO: check winner
 export function checkWinner(playerBoard, enemyBoard) {}
+
+// @TODO: add function to improve CPU firing logic to target neighboring cells after a hit, and to avoid firing at already hit/miss cells

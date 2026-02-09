@@ -1,0 +1,56 @@
+@mixin board-style($width: 80vw, $height: 40vh) {
+  width: $width;
+  height: $height;
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  /* 1st row/column for axis, then 12 equal board cells */
+  grid-template-rows: repeat(13, 1fr);
+  gap: 2px;
+  border: #e9ecef 2px solid;
+  border-radius: 16px;
+}
+
+@mixin cell-coloring($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+}
+
+:root {
+  --off-white: #f0f0f0;
+  --dark-mode-bg: #121212;
+  --primary-color: #1474d4;
+  --secondary-color: #333;
+  --accent-color: rgb(245, 172, 1);
+}
+
+@mixin select-style {
+  color: #1c1f1c;
+  border: 2px solid var(--secondary-color);
+  height: 50x;
+  border-radius: 8px;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.5rem;
+  margin: 10px;
+  @include dark-mode {
+    background-color: var(--secondary-color);
+    color: var(--off-white);
+    border-color: var(--off-white);
+  }
+}
+
+@mixin axis-style {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-color);
+  @include dark-mode {
+    color: var(--off-white);
+  }
+}
+
+@mixin dark-mode {
+  body.dark-theme & {
+    @content;
+  }
+}
