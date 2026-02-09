@@ -1,10 +1,13 @@
 @import "./mixin";
 
-* { outline: 1px solid red !important; }
+/* goated debug statement */
+// * { outline: 1px solid red !important; }
 body {
   text-align: center;
   background-color: var(--off-white);
   font-family: "Sans-Serif", Arial;
+  padding: 0;
+  margin: 0 0 50px 0;
   @include dark-mode {
     background-color: var(--dark-mode-bg);
   }
@@ -24,6 +27,7 @@ nav {
   color: white;
   font-size: 1.4rem;
   font-weight: bold;
+  margin: 0;
   @include dark-mode {
     background-color: var(--secondary-color);
   }
@@ -59,7 +63,7 @@ nav > a {
   position: relative;
   display: flex;
   justify-self: right;
-  margin-right: 20px;
+  margin-right: 10px;
   box-sizing: border-box;
 }
 
@@ -197,7 +201,7 @@ h2 {
   }
 
   .board {
-    @include board-style(40vw, 40vw);
+    @include board-style(40vw, 65vh);
   }
 
   nav {

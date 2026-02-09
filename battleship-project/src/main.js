@@ -60,11 +60,46 @@ boards.forEach((board) => {
   }
 });
 
+
+
 const playercells = document.querySelectorAll("#player-board .board-cell");
 const enemycells = document.querySelectorAll("#enemy-board .board-cell");
 
+const ships = {
+  "carrier-ship": 5,
+  "battleship-ship": 4,
+  "cruiser-ship": 3,
+  "submarine-ship": 3,
+  "destroyer-ship": 2,
+};
+
+// place ships on enemy board (randomly place 5 ships)
+for (let index = 0; index < 5; index++) {
+  const shipTypes = Object.keys(ships);
+  const shipType = shipTypes[index];
+  let placed = false;
+
+  while (!placed) {
+    const startIndex = Math.floor(Math.random() * 144);
+    const isHorizontal = Math.random() < 0.5;
+    placed = placeShip(shipType, startIndex, isHorizontal, enemycells);
+  }
+}
+
+let playerShipsPlaced = 0;
+let gameStarted = false;
+
+let placedShips = {
+  "carrier-ship": false,
+  "battleship-ship": false,
+  "cruiser-ship": false,
+  "submarine-ship": false,
+  "destroyer-ship": false,
+}
+
 // ship type selection
 const shipSelect = document.getElementById("ship-select");
+
 let selectedShip = shipSelect.value;
 
 const orientationSelect = document.getElementById("orientation-select");
@@ -77,31 +112,52 @@ shipSelect.addEventListener("change", (e) => {
   selectedShip = e.target.value;
 });
 
-const ships = {
-  "carrier-ship": 5,
-  "battleship-ship": 4,
-  "cruiser-ship": 3,
-  "submarine-ship": 3,
-  "destroyer-ship": 2,
-};
-
-// place player ships
-// @TODO: improve ship placement logic for wrapping and neighboring cells
 playercells.forEach((cell) => {
+  if (playerShipsPlaced >= 5) return; // all ships placed, stop allowing placement
   if (cell.classList.contains("ship-cell")) return; // prevent placing multiple ships on same cell
-
   if (selectedShip === "none") return; // no ship selected
 
   cell.addEventListener("click", () => {
     const startIndex = Array.from(playercells).indexOf(cell);
     const isHorizontal = selectedOrientation === "horizontal" ? true : false;
-    placeShip(selectedShip, startIndex, isHorizontal, playercells);
+
+    if(placeShip(selectedShip, startIndex, isHorizontal, playercells)) {
+      placedShips[selectedShip] = true;
+      shipSelect.querySelector(`option[value="${selectedShip}"]`).disabled = true; // disable option in dropdown once placed
+      shipSelect.value = "none"; // reset selection
+      playerShipsPlaced++;
+
+      if (playerShipsPlaced === 5) {
+        gameStarted = true;
+        Swal.fire({
+          title: 'All ships placed!',
+          text: 'The battle begins now. Attack the enemy ships by clicking on the cells of the enemy board.',
+          confirmButtonText: 'Let\'s go!',
+          icon: 'success',
+          background: 'var(--off-white)', 
+          color: 'var(--secondary-color)',
+        });
+      }
+    }
   });
 });
+
 
 // enemy board listener
 enemycells.forEach((cell) => {
   cell.addEventListener("click", () => {
+    if (!gameStarted) {
+      Swal.fire({
+        title: 'Place all your ships first!',
+        text: 'You need to place all 5 of your ships on the board before you can start firing at the enemy.',
+        confirmButtonText: 'Okay',
+        background: 'var(--off-white)', 
+        icon: 'error',
+        color: 'var(--secondary-color)',
+      });
+      return;
+    }
+
     // if the cell is already hit, do nothing
     if (cell.style.backgroundColor === "red" || cell.classList.contains("miss-cell")) {
       return;
@@ -124,18 +180,6 @@ enemycells.forEach((cell) => {
   });
 });
 
-// place ships on enemy board (randomly place 5 ships)
-for (let index = 0; index < 6; index++) {
-  const shipTypes = Object.keys(ships);
-  const shipType = shipTypes[index];
-  let placed = false;
-
-  while (!placed) {
-    const startIndex = Math.floor(Math.random() * 144);
-    const isHorizontal = Math.random() < 0.5;
-    placed = placeShip(shipType, startIndex, isHorizontal, enemycells);
-  }
-}
 
 const fireButton = document.querySelector(".fire-btn");
 fireButton.addEventListener("click", () => {
