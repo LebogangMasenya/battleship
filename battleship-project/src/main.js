@@ -3,16 +3,14 @@ import { placeShip, shipSank, fire } from "./game-logic";
 
 import Swal from 'sweetalert2';
 
-
-
 const toggleTheme = document.getElementById("toggle-theme");
 let isDarkMode = localStorage.getItem("theme") === "dark";
 
 function applyTheme(isDark) {
   if (isDark) {
     document.body.classList.add("dark-theme");
-    document.body.style.background = "#121212";
-    if (toggleTheme) toggleTheme.checked = true; // Sync the actual switch!
+    document.body.style.background = "var(--dark-mode-bg)";
+    if (toggleTheme) toggleTheme.checked = true;
   } else {
     document.body.classList.remove("dark-theme");
     document.body.style.background = "var(--off-white)";
@@ -20,7 +18,7 @@ function applyTheme(isDark) {
   }
 }
 
-// Run it once as soon as the script hits
+
 applyTheme(isDarkMode);
 Swal.fire({
   title: 'Welcome to Battleships!',
@@ -35,7 +33,7 @@ toggleTheme.addEventListener("change", (e) => {
   if (e.target.checked) {
     document.body.classList.add("dark-theme");
     localStorage.setItem("theme", "dark");
-    document.body.style.background = "#121212";
+    document.body.style.background = "var(--dark-mode-bg)";
   } else {
     localStorage.removeItem("theme"); 
     document.body.classList.remove("dark-theme");

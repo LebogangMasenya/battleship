@@ -1,11 +1,12 @@
 @import "./mixin";
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
 
 /* goated debug statement */
 // * { outline: 1px solid red !important; }
 body {
   text-align: center;
   background-color: var(--off-white);
-  font-family: "Sans-Serif", Arial;
+  font-family: "Pixelify Sans", Arial, sans-serif;
   padding: 0;
   margin: 0 0 50px 0;
   @include dark-mode {
