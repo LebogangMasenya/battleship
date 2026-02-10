@@ -4,26 +4,46 @@ import { placeShip, shipSank, fire } from "./game-logic";
 import Swal from 'sweetalert2';
 
 
-// on load, display modal and button to start game
+
+const toggleTheme = document.getElementById("toggle-theme");
+let isDarkMode = localStorage.getItem("theme") === "dark";
+
+function applyTheme(isDark) {
+  if (isDark) {
+    document.body.classList.add("dark-theme");
+    document.body.style.background = "#121212";
+    if (toggleTheme) toggleTheme.checked = true; // Sync the actual switch!
+  } else {
+    document.body.classList.remove("dark-theme");
+    document.body.style.background = "var(--off-white)";
+    if (toggleTheme) toggleTheme.checked = false;
+  }
+}
+
+// Run it once as soon as the script hits
+applyTheme(isDarkMode);
 Swal.fire({
   title: 'Welcome to Battleships!',
   text: 'Enemey ships have been spotted in the waters. Place your ships and attack to sink them before they sink you!',
   confirmButtonText: 'Start Game',
-  background: 'var(--off-white)', 
-  color: 'var(--secondary-color)',
+  background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+  color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)'
 });
 
 
-const toggleTheme = document.getElementById("toggle-theme");
 toggleTheme.addEventListener("change", (e) => {
-  if ( e.target.checked || cookieStore.get("theme")?.value === "dark") {
+  if (e.target.checked) {
     document.body.classList.add("dark-theme");
-    document.body.style.backgroundColor = "#121212";
+    localStorage.setItem("theme", "dark");
+    document.body.style.background = "#121212";
   } else {
+    localStorage.removeItem("theme"); 
     document.body.classList.remove("dark-theme");
-    document.body.style.backgroundColor = "#f0f0f0";
+    localStorage.setItem("theme", "light");
+    document.body.style.background = "var(--off-white)";
   }
 });
+
 
 const boards = document.querySelectorAll(".board");
 
@@ -121,7 +141,7 @@ playercells.forEach((cell) => {
     const startIndex = Array.from(playercells).indexOf(cell);
     const isHorizontal = selectedOrientation === "horizontal" ? true : false;
 
-    if(placeShip(selectedShip, startIndex, isHorizontal, playercells)) {
+    if (placeShip(selectedShip, startIndex, isHorizontal, playercells)) {
       placedShips[selectedShip] = true;
       shipSelect.querySelector(`option[value="${selectedShip}"]`).disabled = true; // disable option in dropdown once placed
       shipSelect.value = "none"; // reset selection
@@ -134,8 +154,8 @@ playercells.forEach((cell) => {
           text: 'The battle begins now. Attack the enemy ships by clicking on the cells of the enemy board.',
           confirmButtonText: 'Let\'s go!',
           icon: 'success',
-          background: 'var(--off-white)', 
-          color: 'var(--secondary-color)',
+          background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+          color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)',
         });
       }
     }
@@ -151,9 +171,9 @@ enemycells.forEach((cell) => {
         title: 'Place all your ships first!',
         text: 'You need to place all 5 of your ships on the board before you can start firing at the enemy.',
         confirmButtonText: 'Okay',
-        background: 'var(--off-white)', 
         icon: 'error',
-        color: 'var(--secondary-color)',
+        background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+        color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)',
       });
       return;
     }
