@@ -141,6 +141,9 @@ playercells.forEach((cell) => {
     const startIndex = Array.from(playercells).indexOf(cell);
     const isHorizontal = selectedOrientation === "horizontal" ? true : false;
 
+    if (placedShips[selectedShip]) {
+      return;
+    }
     if (placeShip(selectedShip, startIndex, isHorizontal, playercells)) {
       placedShips[selectedShip] = true;
       shipSelect.querySelector(`option[value="${selectedShip}"]`).disabled = true; // disable option in dropdown once placed
