@@ -1,6 +1,7 @@
 import "./style.scss";
 import { placeShip, shipSank, fire } from "./game-logic";
-
+import { from } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 const toggleTheme = document.getElementById("toggle-theme");
@@ -18,15 +19,32 @@ function applyTheme(isDark) {
   }
 }
 
-
 applyTheme(isDarkMode);
-Swal.fire({
-  title: 'Welcome to Battleships!',
-  text: 'Enemey ships have been spotted in the waters. Place your ships and attack to sink them before they sink you!',
-  confirmButtonText: 'Start Game',
-  background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
-  color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)'
-});
+
+const isLoggedIn = false;;
+if (!isLoggedIn) {
+  const  swal$ = from(Swal.fire({
+    title: 'Welcome to Battleships!',
+    text: 'To save your progress and compete with friends, please register or login to your account.',
+    confirmButtonText: 'Register / Login',
+    background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+    color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)'
+  }));
+
+  swal$.pipe(
+    filter(result => result.isConfirmed)
+  ).subscribe(() => {
+    window.location.href = "/register.html"; 
+  });
+} else {
+  Swal.fire({
+    title: 'Welcome to Battleships!',
+    text: 'Enemey ships have been spotted in the waters. Place your ships and attack to sink them before they sink you!',
+    confirmButtonText: 'Start Game',
+    background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+    color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)'
+  });
+}
 
 
 toggleTheme.addEventListener("change", (e) => {
@@ -35,7 +53,7 @@ toggleTheme.addEventListener("change", (e) => {
     localStorage.setItem("theme", "dark");
     document.body.style.background = "var(--dark-mode-bg)";
   } else {
-    localStorage.removeItem("theme"); 
+    localStorage.removeItem("theme");
     document.body.classList.remove("dark-theme");
     localStorage.setItem("theme", "light");
     document.body.style.background = "var(--off-white)";

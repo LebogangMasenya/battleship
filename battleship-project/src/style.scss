@@ -312,3 +312,23 @@ h2 {
 .log-entry span:nth-child(1) {
   text-align: left;
 }
+
+
+
+/* styling for register and login forms */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px;
+  background-color: var(--off-white);
+  @include dark-mode {
+    background-color: var(--secondary-color);
+    border-color: var(--off-white);
+    color: var(--off-white);
+  }
+}
