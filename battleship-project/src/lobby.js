@@ -45,6 +45,12 @@ socketMessages$.pipe(
     error: (err) => console.error("Lobby Error:", err)
 });
 
+const logoutBtn = document.getElementById("logout-btn");
+logoutBtn.addEventListener("click", () => {
+  localStorage.clear();
+  socket.send(JSON.stringify({ type: "logout" }));
+  window.location.href = "/login.html";
+})
 
 // Listen for invites
 const invites$ = socketMessages$.pipe(

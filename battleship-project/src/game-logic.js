@@ -11,14 +11,13 @@ const ships = {
 function checkOverlap(shipType, startIndex, isHorizontal, board) {
   if (isHorizontal) {
     for (let index = 0; index < ships[shipType]; index++) {
-      if (board[startIndex + index].classList.contains("ship-cell")) {
+      if (board && board[startIndex + index-1]?.classList.contains("ship-cell")) {
         return true;
       }
     }
   } else {
     for (let index = 0; index < ships[shipType]; index++) {
-      if (board[startIndex + index * 12].classList.contains("ship-cell")) {
-        // TODO: causes classlist undefined error
+      if (board && board[startIndex + index * 12]?.classList.contains("ship-cell")) {
         return true;
       }
     }
@@ -91,9 +90,52 @@ export function placeShip(shipType, startIndex, isHorizontal, board) {
   return true;
 }
 
-export function fire(board) {
-  const randomIndex = Math.floor(Math.random() * 144);
-  const cell = board[randomIndex];
+function indexToBattleCoord(index) {
+  const GRID_SIZE = 12;
+  const colLetter = String.fromCharCode(65 + (index % GRID_SIZE));
+
+  const rowNumber = Math.floor(index / GRID_SIZE) + 1;
+
+  return `${colLetter}${rowNumber}`;
+}
+
+const coordToIndex = (coord) => {
+  const col = coord.charCodeAt(0) - 65; 
+  const row = parseInt(coord.substring(1)) - 1;
+  return (row * 12) + col;
+};
+
+export function placeShipMapping(shipType, startIndex, isHorizontal) {
+  // strip the "-ship" suffix from the shipType to get the base type
+  const baseType = shipType.replace("-ship", "");
+  return {
+    type: baseType,
+    start: indexToBattleCoord(startIndex),
+    orientation: isHorizontal ? "horizontal" : "vertical",
+  };
+}
+
+export function sendShipPlacementToServer(socket, placement) {
+  const data = {
+    type: "place_ships",
+    ships: placement,
+} 
+console.log("Sending ship placement to server:", data); 
+socket.send(JSON.stringify(data)); 
+
+}
+
+export function sendFireToServer(socket, targetIndex) {
+  const data = {
+    type: "shoot",
+    coordinate: targetIndex
+  };
+  console.log("Sending fire action to server:", data);
+  socket.send(JSON.stringify(data));
+}
+
+export function fire(board) { 
+  const randomIndex = Math.floor(Math.random() * 144); const cell = board[randomIndex];
 
   // if the cell is already hit, do nothing
   if (
@@ -120,3 +162,57 @@ export function fire(board) {
 export function checkWinner(playerBoard, enemyBoard) {}
 
 // @TODO: add function to improve CPU firing logic to target neighboring cells after a hit, and to avoid firing at already hit/miss cells
+
+
+export function resetBoard(gameState, playerCells, enemyCells) {
+  const ships = gameState.ships; 
+  const shots = gameState.shots;
+
+  // reset player board
+  playerCells.forEach(cell => {
+  cell.classList.remove("ship-cell", "hit-cell", "miss-cell", "sunk-cell");
+  cell.style.backgroundColor = "";
+  });
+
+  // reset enemy board
+  enemyCells.forEach(cell => {
+    cell.classList.remove("hit-cell", "miss-cell", "sunk-cell");
+  cell.style.backgroundColor = "";
+  })
+
+  // add ships back to player board based on game state
+  ships.forEach(ship => {
+      // Mark the ship's position
+      ship.tiles.forEach(tile => {
+        const cell = playerCells.find(c => c.id === tile);
+        cell.classList.add("ship-cell");
+         const idx = coordToIndex(tile);
+      if (playerCells[idx]) {
+        playerCells[idx].classList.add('ship', `ship-${ship.type}`);
+          if (ship.hits.includes(tile)) {
+            playerCells[idx].classList.add('hit-cell');
+            playerCells[idx].innerHTML = '*'; 
+            playerCells[idx].style.backgroundColor = "red";
+         }
+      }
+      })
+
+     
+  })
+
+
+  shots.forEach(shot => {
+    const idx = coordToIndex(shot.coordinate);
+    if(enemyCells[idx]) {
+      if (shot.hit) {
+        enemyCells[idx].classList.add('hit-cell');
+        enemyCells[idx].innerHTML = '*';
+        enemyCells[idx].style.backgroundColor = "red";
+        // check if ship has sank and update accordingly
+        shipSank(enemyCells, enemyCells[idx].getAttribute("id").split("-")[0]);
+      }
+    }
+
+  });
+
+}
