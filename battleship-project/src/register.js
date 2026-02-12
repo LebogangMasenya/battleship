@@ -1,6 +1,9 @@
 import "./style.scss";
 import * as serverLogic from "./utils.js";
-const socket = new WebSocket("ws://localhost:3000");
+
+import socketService from "./socket.js";
+const socket = socketService.getSocket();
+
 
 
 const registerForm = document.getElementById("register-form");

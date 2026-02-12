@@ -1,28 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Battleships Login</title>
-  </head>
 
-  <body id="login">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battleships Settings</title>
+</head>
+
+<body>
+  <section id="login">
     <div class="form-container">
-     <form id="login-form">
-      <h1>Welcome to Battleships!</h1>
-      <label for="username">Enter your username:</label>
-      <input type="text" id="username" name="username" required />
+      <form id="login-form">
+        <h1>Welcome to Battleships!</h1>
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" name="username" required />
 
-      <label for="password">Enter your password:</label>
-      <input type="password" id="password" name="password" required />
-      <button id="login-button" type="submit">Login</button>
-    </form>
+        <label for="password">Enter your password:</label>
+        <input type="password" id="password" name="password" required />
+        <button id="login-button" type="submit">Login</button>
+      </form>
     </div>
 
     <div>
-        <p>Don't have an account? <a href="register.html">Register here</a></p>
+      <p>Don't have an account? <a onclick="showRegister()">Register here</a></p>
     </div>
-   <script type="module" src="src/service.js"></script>
-  </body>
+
+  </section>
+
+  <section id="register" style="display: none;">
+    <div class="form-container">
+      <form id="register-form">
+        <h1>Welcome to Battleships!</h1>
+        <label for="username">Enter your username:</label>
+        <input type="text" id="username" name="username" required />
+
+        <label for="password">Enter your password:</label>
+        <input type="password" id="password" name="password" required />
+        <button id="register-button" type="submit">Register</button>
+      </form>
+    </div>
+    <div>
+      <p>Already have an account? <a onclick="showLogin()">Login here</a></p>
+    </div>
+  </section>
+
+  <section id="lobby" style="display: none;">
+    <div class="lobby-container">
+      <h1>Welcome to the Battleships Lobby!</h1>
+      <div id="players">
+        <h2>Players in the lobby:</h2>
+        <ul id="player-list">
+
+        </ul>
+        <button id="send-invite">Send Invite</button>
+      </div>
+
+      <div class="invites">
+        <h2>Game Invites:</h2>
+        <ul id="invite-list">
+          <li>
+            <span class="invite-from">Player1</span> has invited you to play a game.
+            <button class="accept-invite" onclick="acceptInvite()">Accept</button>
+            <button class="decline-invite" onclick="declineInvite()">Decline</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <script type="module" src="src/service.js"></script>
+</body>
 
 </html>

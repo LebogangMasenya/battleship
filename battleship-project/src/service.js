@@ -1,6 +1,19 @@
 import "./style.scss";
 import * as serverLogic from "./utils.js";
-const socket = new WebSocket("ws://localhost:3000");
+import socketService from "./socket.js";
+const socket = socketService.getSocket();
+
+
+function showRegister() {
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById("register-form").style.display = "block";
+}
+
+function showLogin() {
+    document.getElementById("register-form").style.display = "none";
+    document.getElementById("login-form").style.display = "block";
+}
+
 
 /*
 const registerForm = document.getElementById("register-form");
@@ -64,7 +77,7 @@ loginForm.onsubmit = function(event) {
 
 socket.onmessage = (event) => {
     
-    console.log("Received message from server:", event.data);
+    console.log("Received message from server login:", event.data);
     const response = JSON.parse(event.data);
     if (response.type === "auth_success") {
         localStorage.setItem("username", response.user.username); 
