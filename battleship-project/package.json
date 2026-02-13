@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint . --ext .js",
+    "prettier": "prettier --write ."
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -17,7 +19,9 @@
     "css-box-model": "^1.2.1",
     "eslint": "^10.0.0",
     "prettier": "3.8.1",
+    "rxjs": "^7.8.2",
     "sass": "^1.97.3",
-    "sweetalert2": "^11.26.18"
+    "sweetalert2": "^11.26.18",
+    "wscat": "^6.1.0"
   }
 }

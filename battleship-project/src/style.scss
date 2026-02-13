@@ -1,11 +1,12 @@
 @import "./mixin";
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
 
 /* goated debug statement */
 // * { outline: 1px solid red !important; }
 body {
   text-align: center;
   background-color: var(--off-white);
-  font-family: "Sans-Serif", Arial;
+  font-family: "Pixelify Sans", Arial, sans-serif;
   padding: 0;
   margin: 0 0 50px 0;
   @include dark-mode {
@@ -86,7 +87,7 @@ nav > a {
 }
 
 .switch label:before {
-  content: '';
+  content: "";
   width: 75px;
   height: 42px;
   background: var(--secondary-color);
@@ -98,7 +99,7 @@ nav > a {
 }
 
 .switch label:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 38px;
   height: 38px;
@@ -130,7 +131,7 @@ h2 {
 .controls {
   display: grid;
   grid-template: 1fr 1fr 1fr;
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr;
   justify-self: center;
   width: 60vw;
 }
@@ -206,7 +207,7 @@ h2 {
 
   nav {
     display: flex;
-    align-items: center;  
+    align-items: center;
   }
 
   .controls {
@@ -251,7 +252,6 @@ h2 {
 #player-board > .ship-cell {
   background-color: var(--accent-color);
 }
-
 
 .number-label {
   grid-row: 1;
@@ -310,4 +310,104 @@ h2 {
 /* Align date to the left for better reading */
 .log-entry span:nth-child(1) {
   text-align: left;
+}
+
+/* styling for register and login forms */
+#login,
+#register {
+  background-color: var(--off-white);
+  border-radius: 8px;
+  padding: 20px;
+
+  @include dark-mode {
+    background-color: var(--secondary-color);
+    border-color: var(--off-white);
+    color: var(--off-white);
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+
+  gap: 15px;
+  font-size: 1.5rem;
+  width: 45vw;
+  margin: auto;
+  padding-bottom: 20px;
+  border: 2px solid var(--secondary-color);
+  border-radius: 8px;
+  background-color: var(--off-white);
+  @include dark-mode {
+    background-color: var(--secondary-color);
+    border-color: var(--off-white);
+    color: var(--off-white);
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 5px;
+  }
+}
+
+#login-form input,
+#register-form input {
+  padding: 10px;
+  font-size: 1.2rem;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  height: 1rem;
+}
+
+#login-button,
+#register-button,
+#logout-btn,
+#login-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  border-width: 2px;
+  margin-top: 8px;
+  &:hover {
+    background-color: var(--off-white);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    cursor: pointer;
+  }
+}
+
+/* Lobby styling */
+#lobby-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+ul > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+}
+
+.lobby-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 10px;
+  font-size: 1rem;
+  border-width: 2px;
+  margin-left: 10px;
+  &:hover {
+    background-color: var(--off-white);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    cursor: pointer;
+  }
 }
