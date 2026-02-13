@@ -113,12 +113,10 @@ const socketMessages$ = fromEvent(socket, 'message').pipe(
   map(event => JSON.parse(event.data))
 );
 
-// 2. Handle the Resume Logic
 const sessionToken = localStorage.getItem("session");
 const username = localStorage.getItem("username");
 
 if (sessionToken) {
-  // Send the resume message when open
   if (socket.readyState === WebSocket.OPEN) {
     socket.send(JSON.stringify({ type: "resume", sessionToken }));
   } else {
@@ -138,25 +136,39 @@ socketMessages$.pipe(
   next: (res) => {
     if (res.type === "auth_success") {
       console.log("Authenticated! Resuming game state...");
-      // download game state and update UI accordingly
     } else if (res.type === "auth_error") {
       console.error("Some server error occurred. Please log in again.");
-      Swal.fire({title: 'Error', text: res.message, icon: 'error', confirmButtonText: 'Go to Login', background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)', color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)' }).then(() => { localStorage.removeItem("session"); localStorage.removeItem("username"); window.location.href = "/login.html"; });
+      Swal.fire({
+        title: 'Error',
+        text: res.message,
+        icon: 'error',
+        confirmButtonText: 'Go to Login',
+        background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+        color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)'
+      }).then(() => {
+        localStorage.removeItem("session");
+        localStorage.removeItem("username");
+        window.location.href = "/login.html";
+      });
+    } else if(res.type === "error") {
+      console.error("Error from server:", res.message);
+      Swal.fire({
+        title: 'Error',
+        text: res.message,
+        icon: 'error',
+        confirmButtonText: 'Okay',
+        background: isDarkMode ? 'var(--secondary-color)' : 'var(--off-white)',
+        color: isDarkMode ? 'var(--off-white)' : 'var(--dark-mode-bg)'
+      });
     } else if (res.type === "reconnect_game_state") {
-        if (res.ships.length === 0) {
+      if (res.ships.length === 0) {
         console.log("Empty game state received. Ready for ship placement.");
         return; 
-    }
+      }
       console.log("Received game state from server:", res.ships);
       localStorage.setItem("gameId", res.gameId); 
       const gameState = {ships: res.ships, shots: res.shots };
       resetBoard(gameState, playercells, enemycells);
-    }
-     else if (res.type === "auth_error") {
-      console.error("Session resume failed. Please log in again.");
-      localStorage.removeItem("session");
-      localStorage.removeItem("username");
-      window.location.href = "/login.html";
     } else if (res.type === "ships_accepted") {
       console.log("Ship placement accepted by server. Waiting for opponent...");
     } else if (res.type === "waiting_for_opponent") {
@@ -200,20 +212,30 @@ socketMessages$.pipe(
       console.log("Shoot result:", res);
       const { coordinate, hit } = res;
       let cell = enemycells.find(c => c.id === coordinate);
+
       if (hit) {
         cell.classList.add("hit-cell");
         cell.style.backgroundColor = "red";
+
         if (res.sunk !== null) {
           // ship sunk, update UI accordingly (e.g. mark all cells of that ship as sunk)
-        }
+          enemycells.forEach(c => {
+            if (c.id.startsWith(res.sunk)) {
+              c.classList.remove("hit-cell");
+              c.classList.add("sunk-cell");
+              c.textContent = "*";
+              c.style.border = "2px solid yellow";
+            }
+        })}
       } else {
         cell.innerText = "x";
         cell.classList.add("miss-cell");
       }
     } else if (res.type === "shot_fired") {
       console.log("Opponent shot at:", res.coordinate);
-      let cell = playercells.find(c => c.id === res.coordinate);
-      if (cell.classList.contains("ship-cell")) {
+      let cell = playercells.find(c => c.id.endsWith(`${res.coordinate}`));
+      console.log("Cell being shot at:", cell);
+      if (cell.classList.contains("ship-cell")) { // undefined error here
         cell.classList.add("hit-cell");
         cell.style.backgroundColor = "red";
       } else {
@@ -260,7 +282,7 @@ toggleTheme.addEventListener("change", (e) => {
   }
 });
 
-// resume game if gameId exists in localStorage
+
 
 
 
@@ -303,8 +325,7 @@ let placedShips = {
 }
 
 
-let serverPlacement = [] // array of objects for ship placement to send to server in format { shipType, star
-// ship type selection
+let serverPlacement = [];
 const shipSelect = document.getElementById("ship-select");
 
 let selectedShip = shipSelect.value;
@@ -328,7 +349,6 @@ playercells2.forEach((cell) => {
   if (selectedShip === "none") return; // no ship selected
 
   cell.addEventListener("click", () => {
-    console.log("Cell clicked for placement:", cell.id);
     const startIndex = Array.from(playercells2).indexOf(cell);
     const isHorizontal = selectedOrientation === "horizontal" ? true : false;
 
@@ -338,8 +358,8 @@ playercells2.forEach((cell) => {
     if (placeShip(selectedShip, startIndex, isHorizontal, playercells2)) {
       serverPlacement.push(placeShipMapping(selectedShip, startIndex, isHorizontal));
       placedShips[selectedShip] = true;
-      shipSelect.querySelector(`option[value="${selectedShip}"]`).disabled = true; // disable option in dropdown once placed
-      shipSelect.value = "none"; // reset selection
+      shipSelect.querySelector(`option[value="${selectedShip}"]`).disabled = true; 
+      shipSelect.value = "none"; 
       playerShipsPlaced++;
 
       if (playerShipsPlaced === 5) {
@@ -360,7 +380,6 @@ playercells2.forEach((cell) => {
 });
 
 
-// enemy board listener
 enemycells2.forEach((cell) => {
   cell.addEventListener("click", () => {
     if (!gameStarted) {
@@ -386,7 +405,7 @@ enemycells2.forEach((cell) => {
       });
       return;
     }
-    // send to server
+
     const targetIndex = cell.id;
     sendFireToServer(socket, targetIndex);
 

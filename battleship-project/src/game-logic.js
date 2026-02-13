@@ -43,6 +43,7 @@ export function shipSank(board, shipType) {
       cell.classList.remove("ship-cell");
       cell.classList.add("sunk-cell");
       cell.textContent = "*";
+      cell.style.border = "2px solid yellow";
     });
 
     return true;
@@ -66,6 +67,8 @@ export function placeShip(shipType, startIndex, isHorizontal, board) {
     return false;
   }
 
+  let coordinates = [];
+
   if (isHorizontal) {
     if ((startIndex % 12) + ships[shipType] > 12) {
       return false;
@@ -74,7 +77,8 @@ export function placeShip(shipType, startIndex, isHorizontal, board) {
     for (let i = 0; i < ships[shipType]; i++) {
       board[startIndex + i].classList.add("ship-cell");
       // mark id of ship for later reference when checking if it has sank
-      board[startIndex + i].setAttribute("id", shipType + "-" + (i + 1));
+      coordinates.push(indexToBattleCoord(startIndex + i));
+      board[startIndex + i].setAttribute("id", shipType + "-" + indexToBattleCoord(startIndex + i));
     }
   } else {
     if (Math.floor(startIndex / 12) + ships[shipType] > 12) {
@@ -84,7 +88,8 @@ export function placeShip(shipType, startIndex, isHorizontal, board) {
     for (let i = 0; i < ships[shipType]; i++) {
       board[startIndex + i * 12].classList.add("ship-cell");
       // mark id of ship for later reference when checking if it has sank
-      board[startIndex + i * 12].setAttribute("id", shipType + "-" + (i + 1));
+      coordinates.push(indexToBattleCoord(startIndex + i * 12));
+      board[startIndex + i * 12].setAttribute("id", shipType + "-" + indexToBattleCoord(startIndex + i * 12));
     }
   }
   return true;
@@ -158,8 +163,6 @@ export function fire(board) {
   cell.classList.add("miss-cell");
 }
 
-// @TODO: check winner
-export function checkWinner(playerBoard, enemyBoard) {}
 
 // @TODO: add function to improve CPU firing logic to target neighboring cells after a hit, and to avoid firing at already hit/miss cells
 

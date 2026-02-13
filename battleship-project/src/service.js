@@ -3,18 +3,6 @@ import * as serverLogic from "./utils.js";
 import socketService from "./socket.js";
 const socket = socketService.getSocket();
 
-
-function showRegister() {
-    document.getElementById("login-form").style.display = "none";
-    document.getElementById("register-form").style.display = "block";
-}
-
-function showLogin() {
-    document.getElementById("register-form").style.display = "none";
-    document.getElementById("login-form").style.display = "block";
-}
-
-
 /*
 const registerForm = document.getElementById("register-form");
 registerForm.onsubmit = function(event) {
