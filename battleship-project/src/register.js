@@ -3,7 +3,7 @@ import * as serverLogic from "./utils.js";
 
 import socketService from "./socket.js";
 const socket = socketService.getSocket();
-
+import Swal from 'sweetalert2';
 
 
 const registerForm = document.getElementById("register-form");
@@ -26,5 +26,10 @@ socket.onmessage = (event) => {
         window.location.href = "/login.html"; 
     } else if (response.type === "auth_error") {
         console.error("Registration failed. Please try again.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Registration Failed',
+            text: 'Username may already be taken. Please try again.',
+        });
     }
 }

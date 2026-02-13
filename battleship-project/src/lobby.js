@@ -4,6 +4,7 @@ import { fromEvent } from "rxjs";
 import { scan,startWith, filter, switchMap, take, map } from "rxjs/operators";
 
 import socketService from "./socket.js";
+import Swal from "sweetalert2";
 const socket = socketService.getSocket();
 
 const socketMessages$ = fromEvent(socket, 'message').pipe(
@@ -77,7 +78,7 @@ function updateLobbyUI(players) {
         playerListElement.appendChild(listItem);
 
         const stats = document.createElement("span");
-        stats.textContent = ` (Wins: ${player.stats.wins}, Losses: ${player.stats.losses})`;
+        stats.textContent = ` Wins: ${player.stats.wins}, Losses: ${player.stats.losses}`;
         listItem.appendChild(stats);
         const inviteButton = document.createElement("button");
         inviteButton.classList.add("lobby-btn");
@@ -158,4 +159,19 @@ socketMessages$.pipe(
         window.location.href = "/index.html"; 
     },
     error: (err) => console.error("Invite Accepted Error:", err)
+});
+
+// update if invite is declined
+socketMessages$.pipe(
+    filter(res => res.type === "invite_declined")
+).subscribe({
+    next: (data) => {
+        console.log("Invite declined by:");
+        Swal.fire({
+            icon: 'info',
+            title: 'Invite Declined',
+            text: `Your invite was declined`,
+        });
+    },
+    error: (err) => console.error("Invite Declined Error:", err)
 });

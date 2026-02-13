@@ -2,6 +2,7 @@ import "./style.scss";
 import * as serverLogic from "./utils.js";
 import socketService from "./socket.js";
 const socket = socketService.getSocket();
+import Swal from 'sweetalert2';
 
 /*
 const registerForm = document.getElementById("register-form");
@@ -64,7 +65,6 @@ loginForm.onsubmit = function(event) {
 }
 
 socket.onmessage = (event) => {
-    
     console.log("Received message from server login:", event.data);
     const response = JSON.parse(event.data);
     if (response.type === "auth_success") {
@@ -73,5 +73,19 @@ socket.onmessage = (event) => {
         window.location.href = "/lobby.html"; 
     } else if (response.type === "auth_error") {
         console.error("Login failed. Please try again.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Login Failed',
+            text: 'Invalid username or password. Please try again.',
+        });
+    } else if (response.type === "kicked") {
+        localStorage.clear();
+        Swal.fire({
+            icon: 'warning',
+            title: 'You have been kicked',
+            text: 'You have been removed from the lobby. Please log in again to continue playing.',
+        }).then(() => {
+            window.location.href = "/login.html"; 
+        });
     }
 }

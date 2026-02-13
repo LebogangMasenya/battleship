@@ -50,8 +50,13 @@ export function shipSank(board, shipType) {
   }
   return false;
 }
+// @TODO: add function to check if all ships have sank and end game accordingly
+export function shipSankServer(board, shipType) {
+  const length = ships[shipType + "-ship"];
 
-// TODO: check for immediate ship neighboring cells
+
+}
+// @TODO: check for immediate ship neighboring cells
 function checkNeighboringCells(index) {
   return false;
 }
