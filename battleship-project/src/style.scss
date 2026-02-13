@@ -189,6 +189,16 @@ h2 {
   border-width: 0.5rem;
 }
 
+.board-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
 /* When the screen width is at least x -> switch to the desktop design */
 @media screen and (min-width: 800px) {
   .controls {

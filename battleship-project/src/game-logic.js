@@ -227,3 +227,22 @@ export function resetBoard(gameState, playerCells, enemyCells) {
     }
   });
 }
+
+export function disableBoard(board, cells, disable) {
+  if (!disable) {
+    cells.forEach((cell) => {
+      cell.style.pointerEvents = "auto";
+    });
+    if (board.classList.contains("board-overlay")) {
+      board.classList.remove("board-overlay");
+    }
+    return;
+  }
+
+  cells.forEach((cell) => {
+    cell.style.pointerEvents = "none";
+  });
+
+  // add overlay to indicate board is disabled
+  board.classList.add("board-overlay");
+}

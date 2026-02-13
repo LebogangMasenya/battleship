@@ -7,6 +7,7 @@ import {
   fire,
   sendFireToServer,
   resetBoard,
+  disableBoard
 } from "./game-logic";
 import { fromEvent, from } from "rxjs";
 import { filter, map, tap } from "rxjs/operators";
@@ -74,6 +75,8 @@ const enemycells = Array.from(
   document.querySelectorAll("#enemy-board .board-cell"),
 );
 
+const enemyBoard = document.getElementById("enemy-board");
+
 const isLoggedIn = !!localStorage.getItem("gameId");
 
 // if logged in, show logout button and hide login/register buttons
@@ -130,7 +133,7 @@ if (sessionToken) {
     socket.send(JSON.stringify({ type: "resume", sessionToken }));
   } else {
     socket.onopen = () =>
-      socket.send(JSON.stringify({ type: "resume", sessionToken }));
+    socket.send(JSON.stringify({ type: "resume", sessionToken }));
   }
 }
 
@@ -182,6 +185,7 @@ socketMessages$
         }
         console.log("Received game state from server:", res.ships);
         localStorage.setItem("gameId", res.gameId);
+        gameStarted = true;
         const gameState = { ships: res.ships, shots: res.shots };
         resetBoard(gameState, playercells, enemycells);
       } else if (res.type === "ships_accepted") {
@@ -244,15 +248,7 @@ socketMessages$
           cell.style.backgroundColor = "red";
 
           if (res.sunk !== null) {
-            // ship sunk, update UI accordingly (e.g. mark all cells of that ship as sunk)
-            enemycells.forEach((c) => {
-              if (c.id.startsWith(res.sunk)) {
-                c.classList.remove("hit-cell");
-                c.classList.add("sunk-cell");
-                c.textContent = "*";
-                c.style.border = "2px solid yellow";
-              }
-            });
+            // show a message that the ship has been sunk
           }
         } else {
           cell.innerText = "x";
@@ -263,7 +259,6 @@ socketMessages$
         let cell = playercells.find((c) => c.id.endsWith(`${res.coordinate}`));
         console.log("Cell being shot at:", cell);
         if (cell.classList.contains("ship-cell")) {
-          // undefined error here
           cell.classList.add("hit-cell");
           cell.style.backgroundColor = "red";
         } else {
@@ -273,28 +268,10 @@ socketMessages$
       } else if (res.type === "turn_change") {
         if (res.currentTurn === username) {
           yourTurn = true;
-          Swal.fire({
-            title: "Your Turn",
-            text: "It's your turn to attack! Click on the cells of the enemy board to fire.",
-            icon: "info",
-            confirmButtonText: "Got it",
-            background: isDarkMode
-              ? "var(--secondary-color)"
-              : "var(--off-white)",
-            color: isDarkMode ? "var(--off-white)" : "var(--dark-mode-bg)",
-          });
+          disableBoard(enemyBoard, enemycells, false);
         } else {
           yourTurn = false;
-          Swal.fire({
-            title: "Opponent's Turn",
-            text: "Your opponent is attacking. Please wait for their move.",
-            icon: "info",
-            confirmButtonText: "Okay",
-            background: isDarkMode
-              ? "var(--secondary-color)"
-              : "var(--off-white)",
-            color: isDarkMode ? "var(--off-white)" : "var(--dark-mode-bg)",
-          });
+          disableBoard(enemyBoard, enemycells, true);
         }
       }
     },
@@ -349,6 +326,14 @@ let serverPlacement = [];
 const shipSelect = document.getElementById("ship-select");
 
 let selectedShip = shipSelect.value;
+if(gameStarted) { // game already started, blocking ship selection
+  shipSelect.disabled = true;
+  selectedShip = "none";
+} else {
+  shipSelect.addEventListener("change", (e) => {
+    selectedShip = e.target.value;
+  });
+}
 
 const orientationSelect = document.getElementById("orientation-select");
 let selectedOrientation = orientationSelect.value;
@@ -356,9 +341,8 @@ let selectedOrientation = orientationSelect.value;
 orientationSelect.addEventListener("change", (e) => {
   selectedOrientation = e.target.value;
 });
-shipSelect.addEventListener("change", (e) => {
-  selectedShip = e.target.value;
-});
+
+
 
 const playercells2 = document.querySelectorAll("#player-board .board-cell");
 const enemycells2 = document.querySelectorAll("#enemy-board .board-cell");
@@ -369,6 +353,9 @@ playercells2.forEach((cell) => {
   if (selectedShip === "none") return; // no ship selected
 
   cell.addEventListener("click", () => {
+    if(gameStarted) {
+      return; // game already started, block ship placement 
+    }
     const startIndex = Array.from(playercells2).indexOf(cell);
     const isHorizontal = selectedOrientation === "horizontal" ? true : false;
 
@@ -410,18 +397,6 @@ enemycells2.forEach((cell) => {
       Swal.fire({
         title: "Place all your ships first!",
         text: "You need to place all 5 of your ships on the board before you can start firing at the enemy.",
-        confirmButtonText: "Okay",
-        icon: "error",
-        background: isDarkMode ? "var(--secondary-color)" : "var(--off-white)",
-        color: isDarkMode ? "var(--off-white)" : "var(--dark-mode-bg)",
-      });
-      return;
-    }
-
-    if (!yourTurn) {
-      Swal.fire({
-        title: "Not your turn!",
-        text: "Please wait for your opponent to finish their turn.",
         confirmButtonText: "Okay",
         icon: "error",
         background: isDarkMode ? "var(--secondary-color)" : "var(--off-white)",

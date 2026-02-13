@@ -1,6 +1,4 @@
 import "./style.scss";
-import * as serverLogic from "./utils.js";
-
 import socketService from "./socket.js";
 const socket = socketService.getSocket();
 import Swal from "sweetalert2";
