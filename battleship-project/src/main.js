@@ -12,7 +12,7 @@ import {
 import { fromEvent, from } from "rxjs";
 import { filter, map, tap } from "rxjs/operators";
 import Swal from "sweetalert2";
-
+import toastr from "toastr";
 import socketService from "./socket.js";
 const socket = socketService.getSocket();
 
@@ -249,7 +249,11 @@ socketMessages$
 
           if (res.sunk !== null) {
             // show a message that the ship has been sunk
-            
+            toastr.info(`You sunk the enemy's ${res.sunk}!`, "", {
+              positionClass: "toast-top-center",
+              timeOut: 3000,
+              progressBar: true,
+            });
           }
         } else {
           cell.innerText = "x";
