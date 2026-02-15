@@ -1,0 +1,52 @@
+# Battleship Game
+
+Welcome to the Battleship Game! This is a fun and interactive game where players try to sink each other's ships. Below are the rules, how to connect to the WebSocket, and instructions for running the app.
+
+## Game Rules
+1. **Setup**: Each player has a grid where they place their ships. The grid is typically 10x10.
+2. **Ships**: Players have a set of ships of different lengths. The common ships are:
+   - Carrier (5 spaces)
+   - Battleship (4 spaces)
+   - Cruiser (3 spaces)
+   - Submarine (3 spaces)
+   - Destroyer (2 spaces)
+3. **Gameplay**: Players take turns guessing the coordinates of the opponent's ships. If a guess hits a ship, the opponent must announce it. If it misses, the turn passes to the other player.
+4. **Winning**: The first player to sink all of the opponent's ships wins the game!
+
+## Connecting to the WebSocket
+To connect to the WebSocket server, use the following code snippet in ```socket.js```:
+```javascript
+const socket = new WebSocket('ws://websocket-url');
+
+socket.onopen = function() {
+    console.log('Connected to the WebSocket server!');
+};
+
+socket.onmessage = function(event) {
+    console.log('Message from server:', event.data);
+};
+```
+Make sure to replace `'ws://websocket-url'` with the actual URL of your WebSocket server.
+
+## Running the Game
+To run the app, follow these steps:
+1. Open your terminal and navigate to the project directory:
+   ```bash
+   cd battleship/battleship-project
+   ```
+2. Install the dependencies (if you haven't already):
+   ```bash
+   bun install
+   ```
+3. Start the development server:
+   ```bash
+   bunx vite
+   ```
+4. Open your browser and go to `http://localhost:5173` to play the game!
+
+## Potential Future Improvements
+- **Live Deployment**: Implement a live deployment feature to allow players to join games hosted on a server, enhancing the multiplayer experience.
+- **Improved Single Player Mode**: Develop a more engaging single-player mode with AI opponents that adapt to player strategies.
+- **Leaderboard**: Introduce a leaderboard system to track player scores and rankings, fostering competition among players.
+
+Enjoy playing Battleship!
