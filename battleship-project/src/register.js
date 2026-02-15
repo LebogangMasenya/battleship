@@ -1,4 +1,4 @@
-import "./style.scss";
+import "./styles/auth.scss";
 import socketService from "./socket.js";
 const socket = socketService.getSocket();
 import Swal from "sweetalert2";

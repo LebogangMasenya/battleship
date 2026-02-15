@@ -1,4 +1,4 @@
-import "./style.scss";
+import "./styles/style.scss";
 import {
   placeShip,
   placeShipMapping,
@@ -249,6 +249,7 @@ socketMessages$
 
           if (res.sunk !== null) {
             // show a message that the ship has been sunk
+            
           }
         } else {
           cell.innerText = "x";
@@ -298,20 +299,7 @@ const ships = {
   "destroyer-ship": 2,
 };
 
-/*
-// place ships on enemy board (randomly place 5 ships)
-for (let index = 0; index < 5; index++) {
-  const shipTypes = Object.keys(ships);
-  const shipType = shipTypes[index];
-  let placed = false;
 
-  while (!placed) {
-    const startIndex = Math.floor(Math.random() * 144);
-    const isHorizontal = Math.random() < 0.5;
-    placed = placeShip(shipType, startIndex, isHorizontal, enemycells);
-  }
-}
-*/
 let playerShipsPlaced = 0;
 
 let placedShips = {
@@ -407,29 +395,6 @@ enemycells2.forEach((cell) => {
 
     const targetIndex = cell.id;
     sendFireToServer(socket, targetIndex);
-
-    /*
-    // if the cell is already hit, do nothing
-    if (cell.style.backgroundColor === "red" || cell.classList.contains("miss-cell")) {
-      return;
-    }
-
-    
-    // if the cell contains a ship, mark it as hit
-    if (cell.classList.contains("ship-cell")) {
-      cell.classList.add("hit-cell");
-      cell.style.backgroundColor = "red";
-      // check if ship has sank and update accordingly
-      shipSank(enemycells, cell.getAttribute("id").split("-")[0]);
-      fire(playercells); // enemy fights back
-      return;
-    }
-      */
-
-    // if the cell does not contain a ship, mark it as miss
-    // cell.innerText = "x";
-    //  cell.classList.add("miss-cell");
-    // fire(playercells); // enemy fights back
   });
 });
 

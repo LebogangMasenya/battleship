@@ -1,8 +1,9 @@
-import "./style.scss";
+import "./styles/lobby.scss";
 import { fromEvent } from "rxjs";
 import { scan, startWith, filter, switchMap, take, map } from "rxjs/operators";
 
 import socketService from "./socket.js";
+import { updateGameHistory } from "./history-func.js";
 import Swal from "sweetalert2";
 const socket = socketService.getSocket();
 
@@ -72,6 +73,9 @@ function updateLobbyUI(players) {
     listItem.textContent = "No players in the lobby.";
     playerListElement.appendChild(listItem);
   }
+
+ // updateGameHistory(players); // sync game history with current players in lobby
+
   players.forEach((player) => {
     const listItem = document.createElement("li");
     listItem.textContent = player.username;
@@ -90,6 +94,7 @@ function updateLobbyUI(players) {
     listItem.appendChild(inviteButton);
   });
 }
+
 
 function updateInvitesUI(invites) {
   const inviteListElement = document.getElementById("invite-list");

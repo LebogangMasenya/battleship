@@ -1,0 +1,100 @@
+@import "./mixin";
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
+
+
+body {
+  text-align: center;
+  background-color: var(--off-white);
+  font-family: "Pixelify Sans", Arial, sans-serif;
+  padding: 0;
+  margin: 0 0 50px 0;
+  @include dark-mode {
+    background-color: var(--dark-mode-bg);
+  }
+}
+
+nav {
+  background-color: var(--primary-color);
+  color: white;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0;
+  @include dark-mode {
+    background-color: var(--secondary-color);
+  }
+
+  #title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+    justify-self: left;
+    margin-right: auto;
+  }
+}
+
+nav > a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  display: flex;
+  justify-self: right;
+  margin: 10px;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  &:active {
+    font-style: italic;
+    background-color: var(--accent-color);
+  }
+}
+
+#lobby-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+ul > li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+}
+
+.lobby-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 10px;
+  font-size: 1rem;
+  border-width: 2px;
+  margin-left: 10px;
+  &:hover {
+    background-color: var(--off-white);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    cursor: pointer;
+  }
+}
+
+
+#logout-btn
+{
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  border-width: 2px;
+  margin-top: 8px;
+  &:hover {
+    background-color: var(--off-white);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    cursor: pointer;
+  }
+}

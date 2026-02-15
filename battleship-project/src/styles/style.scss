@@ -120,6 +120,22 @@ nav > a {
   left: 35px;
 }
 
+
+#login-btn{
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 10px;
+  font-size: 1.5rem;
+  border-width: 2px;
+  margin-top: 8px;
+  &:hover {
+    background-color: var(--off-white);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    cursor: pointer;
+  }
+}
+
 h2 {
   font-size: 2rem;
   color: var(--secondary-color);
@@ -285,139 +301,4 @@ h2 {
   @include cell-coloring(var(--black), var(--white));
 }
 
-/* History.html styling */
-#history-logs {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  max-width: 800px;
-  margin: auto;
-}
 
-/* Base grid for both header and rows */
-.heading,
-.log-entry {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  align-items: center;
-  padding: 12px;
-  border-bottom: 1px solid var(--off-white);
-}
-
-.heading {
-  font-weight: bold;
-  background-color: var(--secondary-color);
-  color: var(--off-white);
-  border-radius: 8px 8px 0 0;
-}
-
-.heading,
-.log-entry {
-  grid-template-areas: "date p-score e-score res";
-  text-align: center;
-}
-
-/* Align date to the left for better reading */
-.log-entry span:nth-child(1) {
-  text-align: left;
-}
-
-/* styling for register and login forms */
-#login,
-#register {
-  background-color: var(--off-white);
-  border-radius: 8px;
-  padding: 20px;
-
-  @include dark-mode {
-    background-color: var(--secondary-color);
-    border-color: var(--off-white);
-    color: var(--off-white);
-  }
-}
-
-.form-container {
-  display: flex;
-  flex-direction: column;
-
-  gap: 15px;
-  font-size: 1.5rem;
-  width: 45vw;
-  margin: auto;
-  padding-bottom: 20px;
-  border: 2px solid var(--secondary-color);
-  border-radius: 8px;
-  background-color: var(--off-white);
-  @include dark-mode {
-    background-color: var(--secondary-color);
-    border-color: var(--off-white);
-    color: var(--off-white);
-  }
-
-  label {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    gap: 5px;
-  }
-}
-
-#login-form input,
-#register-form input {
-  padding: 10px;
-  font-size: 1.2rem;
-  border: 1px solid var(--primary-color);
-  border-radius: 4px;
-  height: 1rem;
-}
-
-#login-button,
-#register-button,
-#logout-btn,
-#login-btn {
-  background-color: var(--primary-color);
-  color: white;
-  border-radius: 10px;
-  font-size: 1.5rem;
-  border-width: 2px;
-  margin-top: 8px;
-  &:hover {
-    background-color: var(--off-white);
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-    cursor: pointer;
-  }
-}
-
-/* Lobby styling */
-#lobby-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-
-ul > li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  border: 1px solid var(--primary-color);
-  border-radius: 4px;
-}
-
-.lobby-btn {
-  background-color: var(--primary-color);
-  color: white;
-  border-radius: 10px;
-  font-size: 1rem;
-  border-width: 2px;
-  margin-left: 10px;
-  &:hover {
-    background-color: var(--off-white);
-    color: var(--primary-color);
-    border-color: var(--primary-color);
-    cursor: pointer;
-  }
-}

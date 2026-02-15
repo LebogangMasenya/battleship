@@ -1,5 +1,3 @@
-// Module for game logic and functionality
-
 const ships = {
   "carrier-ship": 5,
   "battleship-ship": 4,
@@ -31,7 +29,6 @@ function checkOverlap(shipType, startIndex, isHorizontal, board) {
   return false;
 }
 
-// check and update that ship has sank
 export function shipSank(board, shipType) {
   // check if all cells of the ship have been hit
   const shipCells = Array.from(board).filter(
@@ -43,7 +40,6 @@ export function shipSank(board, shipType) {
   );
 
   if (allHit) {
-    // remove ship-cell class and add sunk-cell class to visually indicate the ship has sank
     shipCells.forEach((cell) => {
       cell.classList.remove("hit-cell");
       cell.classList.remove("ship-cell");
@@ -60,10 +56,7 @@ export function shipSank(board, shipType) {
 export function shipSankServer(board, shipType) {
   const length = ships[shipType + "-ship"];
 }
-// @TODO: check for immediate ship neighboring cells
-function checkNeighboringCells(index) {
-  return false;
-}
+
 
 // for random ship placement
 export function placeShip(shipType, startIndex, isHorizontal, board) {
@@ -71,7 +64,6 @@ export function placeShip(shipType, startIndex, isHorizontal, board) {
     return false; // there is already a ship at the starting index
   }
 
-  // check to ensure no overlap
   if (checkOverlap(shipType, startIndex, isHorizontal, board)) {
     return false;
   }
@@ -126,7 +118,7 @@ const coordToIndex = (coord) => {
 };
 
 export function placeShipMapping(shipType, startIndex, isHorizontal) {
-  // strip the "-ship" suffix from the shipType to get the base type
+  //to strip the "-ship" suffix from the shipType to get the base type
   const baseType = shipType.replace("-ship", "");
   return {
     type: baseType,
@@ -157,7 +149,6 @@ export function fire(board) {
   const randomIndex = Math.floor(Math.random() * 144);
   const cell = board[randomIndex];
 
-  // if the cell is already hit, do nothing
   if (
     cell.classList.contains("hit-cell") ||
     cell.classList.contains("miss-cell")
@@ -165,7 +156,6 @@ export function fire(board) {
     return;
   }
 
-  // if the cell contains a ship, mark it as hit
   if (cell.classList.contains("ship-cell")) {
     cell.classList.add("hit-cell");
     cell.style.backgroundColor = "red";
@@ -198,7 +188,6 @@ export function resetBoard(gameState, playerCells, enemyCells) {
 
   // add ships back to player board based on game state
   ships.forEach((ship) => {
-    // Mark the ship's position
     ship.tiles.forEach((tile) => {
       const cell = playerCells.find((c) => c.id === tile);
       cell.classList.add("ship-cell");
@@ -221,8 +210,7 @@ export function resetBoard(gameState, playerCells, enemyCells) {
         enemyCells[idx].classList.add("hit-cell");
         enemyCells[idx].innerHTML = "*";
         enemyCells[idx].style.backgroundColor = "red";
-        // check if ship has sank and update accordingly
-        shipSank(enemyCells, enemyCells[idx].getAttribute("id").split("-")[0]);
+        shipSank(enemyCells, enemyCells[idx].getAttribute("id").split("-")[0]); // does not work anymore due to server logic's approach tp ship tracking (sunk status is tracked at ship level, not cell level)
       }
     }
   });
@@ -243,6 +231,5 @@ export function disableBoard(board, cells, disable) {
     cell.style.pointerEvents = "none";
   });
 
-  // add overlay to indicate board is disabled
   board.classList.add("board-overlay");
 }
