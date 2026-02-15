@@ -1,7 +1,10 @@
+import env from 'dotenv';
+env.config();
+
 class SocketService {
   constructor() {
     if (!SocketService.instance) {
-      const socket = new WebSocket("ws://localhost:3000");
+      const socket = new WebSocket(process.env.WEBSOCKET_URL || 'ws://localhost:3000');
       this.socket = socket;
       SocketService.instance = this;
       return this;
