@@ -3,7 +3,7 @@
 Welcome to the Battleship Game! This is a fun and interactive game where players try to sink each other's ships. Below are the rules, how to connect to the WebSocket, and instructions for running the app.
 
 ## Game Rules
-1. **Setup**: Each player has a grid where they place their ships. The grid is typically 10x10.
+1. **Setup**: Each player has a grid where they place their ships. The grid is typically 12x12.
 2. **Ships**: Players have a set of ships of different lengths. The common ships are:
    - Carrier (5 spaces)
    - Battleship (4 spaces)

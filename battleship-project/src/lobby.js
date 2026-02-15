@@ -74,7 +74,7 @@ function updateLobbyUI(players) {
     playerListElement.appendChild(listItem);
   }
 
- // updateGameHistory(players); // sync game history with current players in lobby
+  // updateGameHistory(players); // sync game history with current players in lobby
 
   players.forEach((player) => {
     const listItem = document.createElement("li");
