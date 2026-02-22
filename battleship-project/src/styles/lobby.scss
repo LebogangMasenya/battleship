@@ -7,7 +7,7 @@ body {
   background-color: var(--off-white);
   font-family: "Pixelify Sans", Arial, sans-serif;
   padding: 0;
-  margin: 0 0 50px 0;
+  
   @include dark-mode {
     background-color: var(--dark-mode-bg);
   }
@@ -55,7 +55,7 @@ nav > a {
   flex-direction: column;
   gap: 20px;
   max-width: 600px;
-  margin: auto;
+  width: 80vw;
 }
 
 ul > li {
@@ -65,6 +65,7 @@ ul > li {
   padding: 10px;
   border: 1px solid var(--primary-color);
   border-radius: 4px;
+  margin: 20px;
 }
 
 .lobby-btn {
@@ -83,8 +84,7 @@ ul > li {
 }
 
 
-#logout-btn
-{
+#logout-btn {
   background-color: var(--primary-color);
   color: white;
   border-radius: 10px;
