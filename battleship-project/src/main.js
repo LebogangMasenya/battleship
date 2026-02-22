@@ -81,9 +81,10 @@ const isLoggedIn = !!localStorage.getItem("gameId");
 
 // if logged in, show logout button and hide login/register buttons
 const loginBtn = document.getElementById("login-btn");
-
+const forfeitBtn = document.getElementById("forfeit-btn");
 if (!isLoggedIn) {
   if (loginBtn) loginBtn.style.display = "none";
+  if (forfeitBtn) forfeitBtn.style.display = "none";
 }
 
 loginBtn.addEventListener("click", () => {
@@ -92,9 +93,41 @@ loginBtn.addEventListener("click", () => {
   localStorage.removeItem("gameId");
   localStorage.removeItem("theme");
   localStorage.clear();
-  socket.send(JSON.stringify({ type: "forfeit" }));
   socket.send(JSON.stringify({ type: "logout" }));
+  // unsubscribe from all socket messages to prevent memory leaks and unwanted behavior after logout
+  
+  socket.close();
   window.location.href = "/login.html";
+});
+
+forfeitBtn.addEventListener("click", () => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Forfeiting will end the current game and count as a loss. Do you want to proceed?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, forfeit",
+    cancelButtonText: "No, keep playing",
+    background: isDarkMode ? "var(--secondary-color)" : "var(--off-white)",
+    color: isDarkMode ? "var(--off-white)" : "var(--dark-mode-bg)",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      socket.send(JSON.stringify({ type: "forfeit" }));
+      Swal.fire({
+        title: "You forfeited the game",
+        text: "Better luck next time!",
+        icon: "info",
+        confirmButtonText: "Okay",
+        background: isDarkMode
+          ? "var(--secondary-color)"
+          : "var(--off-white)",
+        color: isDarkMode ? "var(--off-white)" : "var(--dark-mode-bg)",
+      }).then(() => {
+        localStorage.removeItem("gameId");
+        window.location.href = "/lobby.html";
+      });
+    }
+  });
 });
 
 if (!isLoggedIn) {
