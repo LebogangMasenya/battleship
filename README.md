@@ -1,6 +1,6 @@
 # Battleship Game
 
-Welcome to the Battleship Game! This is a fun and interactive game where players try to sink each other's ships. Below are the rules, how to connect to the WebSocket, and instructions for running the app.
+Welcome to the Battleship Game! This is a fun and interactive game where players try to sink each other's ships. Below are the rules, how to connect to the WebSocket, and instructions for running the app. The game is built in html, css and vanilla javascript.
 
 ## Game Rules
 1. **Setup**: Each player has a grid where they place their ships. The grid is typically 12x12.
@@ -44,9 +44,16 @@ To run the app, follow these steps:
    ```
 4. Open your browser and go to `http://localhost:5173` to play the game!
 
+Alternatively, you can play the game which is deployed on render, just go to `https://battleship-r7p1.onrender.com/`
+
 ## Potential Future Improvements
-- **Live Deployment**: Implement a live deployment feature to allow players to join games hosted on a server, enhancing the multiplayer experience.
 - **Improved Single Player Mode**: Develop a more engaging single-player mode with AI opponents that adapt to player strategies.
 - **Leaderboard**: Introduce a leaderboard system to track player scores and rankings, fostering competition among players.
 
 Enjoy playing Battleship!
+
+## Screenshots
+![](/battleship-project/src/assets/Capture-1.png)
+![](/battleship-project/src/assets/Capture-2.png)
+![](/battleship-project/src/assets/Capture-3.png)
+![](/battleship-project/src/assets/Capture-4.png)
