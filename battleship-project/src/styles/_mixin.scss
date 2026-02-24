@@ -26,11 +26,12 @@
 @mixin select-style {
   color: #1c1f1c;
   border: 2px solid var(--secondary-color);
-  height: 50x;
+  height: 50px;
   border-radius: 8px;
   justify-content: center;
   cursor: pointer;
   font-size: 1.5rem;
+  font-family: "Pixelify Sans", Arial, sans-serif;
   margin: 10px;
   @include dark-mode {
     background-color: var(--secondary-color);

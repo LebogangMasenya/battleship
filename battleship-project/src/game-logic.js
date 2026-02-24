@@ -1,3 +1,4 @@
+import toastr from "toastr";
 const ships = {
   "carrier-ship": 5,
   "battleship-ship": 4,
@@ -194,11 +195,12 @@ export function resetBoard(gameState, playerCells, enemyCells) {
       const idx = coordToIndex(tile);
       if (playerCells[idx]) {
         playerCells[idx].classList.add("ship", `ship-${ship.type}`);
+        playerCells[idx].setAttribute("id", `${ship.type}-ship-${tile}`);
         if (ship.hits.includes(tile)) {
           playerCells[idx].classList.add("hit-cell");
           playerCells[idx].innerHTML = "*";
           playerCells[idx].style.backgroundColor = "red";
-        }
+        } 
       }
     });
   });
@@ -211,6 +213,10 @@ export function resetBoard(gameState, playerCells, enemyCells) {
         enemyCells[idx].innerHTML = "*";
         enemyCells[idx].style.backgroundColor = "red";
         shipSank(enemyCells, enemyCells[idx].getAttribute("id").split("-")[0]); // does not work anymore due to server logic's approach tp ship tracking (sunk status is tracked at ship level, not cell level)
+      } else {
+        enemyCells[idx].classList.add("miss-cell");
+        enemyCells[idx].innerText = "x";
+        enemyCells[idx].style.fontSize = "2rem";
       }
     }
   });
