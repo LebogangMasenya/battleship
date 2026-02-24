@@ -244,6 +244,17 @@ socketMessages$
         console.log("Game is starting!");
         gameStarted = true;
         yourTurn = res.yourTurn;
+
+        const turnNotification = document.getElementById("turn-notification");
+
+        if(turnNotification) {
+            if (yourTurn) {
+              turnNotification.innerText = "It's your turn!";
+            } else {
+              turnNotification.innerText = "Opponent's turn. Please wait...";
+            }
+        }
+
         Swal.fire({
           title: "Game Start!",
           text: "The battle begins now. Attack the enemy ships by clicking on the cells of the enemy board.",
@@ -305,26 +316,20 @@ socketMessages$
           cell.classList.add("miss-cell");
         }
       } else if (res.type === "turn_change") {
+        const turnNotification = document.getElementById("turn-notification");
         if (res.currentTurn === username) {
           yourTurn = true;
+          turnNotification.innerText = "It's your turn!";
           disableBoard(enemyBoard, enemycells, false);
         } else {
           yourTurn = false;
+          turnNotification.innerText = "Opponent's turn. Please wait...";
           disableBoard(enemyBoard, enemycells, true);
         }
       }
     },
   });
 
-const turnNotification = document.getElementById("turn-notification");
-
-if(turnNotification) {
-    if (yourTurn) {
-      turnNotification.innerText = "It's your turn!";
-    } else {
-      turnNotification.innerText = "Opponent's turn. Please wait...";
-    }
-}
 
 
 toggleTheme.addEventListener("change", (e) => {
