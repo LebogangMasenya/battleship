@@ -3,8 +3,6 @@ import {
   placeShip,
   placeShipMapping,
   sendShipPlacementToServer,
-  shipSank,
-  fire,
   sendFireToServer,
   resetBoard,
   disableBoard
@@ -435,8 +433,10 @@ enemycells2.forEach((cell) => {
   });
 });
 
+/*
 const fireButton = document.querySelector(".fire-btn");
 fireButton.addEventListener("click", () => {
   // fire(enemycells);
   // fire(playercells); // enemy randomly fires back
 });
+*/
