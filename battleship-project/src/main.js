@@ -303,6 +303,7 @@ socketMessages$
         } else {
           cell.innerText = "X";
           cell.classList.add("miss-cell");
+          cell.style.fontSize = "2rem";
         }
       } else if (res.type === "shot_fired") {
         console.log("Opponent shot at:", res.coordinate);
