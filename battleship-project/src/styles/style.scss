@@ -262,6 +262,33 @@ h2 {
   }
 }
 
+#turn-notification {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  @include dark-mode {
+    color: var(--accent-color);
+  }
+
+  animation: pulse 2s infinite;
+  // pulse  animation: pulse 2s infinite;
+  
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* Individual Cell Styling */
 .board > .board-cell {
   width: 100%;

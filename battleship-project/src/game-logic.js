@@ -1,3 +1,4 @@
+import toastr from "toastr";
 const ships = {
   "carrier-ship": 5,
   "battleship-ship": 4,

@@ -5,7 +5,7 @@ import {
   sendShipPlacementToServer,
   sendFireToServer,
   resetBoard,
-  disableBoard
+  disableBoard,
 } from "./game-logic";
 import { fromEvent, from } from "rxjs";
 import { filter, map, tap } from "rxjs/operators";
@@ -219,6 +219,10 @@ socketMessages$
         gameStarted = true;
         const gameState = { ships: res.ships, shots: res.shots };
         resetBoard(gameState, playercells, enemycells);
+        if (res.yourTurn) {
+          yourTurn = true;
+          disableBoard(enemyBoard, enemycells, false);
+        }
       } else if (res.type === "ships_accepted") {
         console.log(
           "Ship placement accepted by server. Waiting for opponent...",
@@ -240,7 +244,6 @@ socketMessages$
         console.log("Game is starting!");
         gameStarted = true;
         yourTurn = res.yourTurn;
-        // your turn = true, opponent= res.opponent
         Swal.fire({
           title: "Game Start!",
           text: "The battle begins now. Attack the enemy ships by clicking on the cells of the enemy board.",
@@ -287,7 +290,7 @@ socketMessages$
             });
           }
         } else {
-          cell.innerText = "x";
+          cell.innerText = "X";
           cell.classList.add("miss-cell");
         }
       } else if (res.type === "shot_fired") {
@@ -298,7 +301,7 @@ socketMessages$
           cell.classList.add("hit-cell");
           cell.style.backgroundColor = "red";
         } else {
-          cell.innerText = "x";
+          cell.innerText = "X";
           cell.classList.add("miss-cell");
         }
       } else if (res.type === "turn_change") {
@@ -312,6 +315,17 @@ socketMessages$
       }
     },
   });
+
+const turnNotification = document.getElementById("turn-notification");
+
+if(turnNotification) {
+    if (yourTurn) {
+      turnNotification.innerText = "It's your turn!";
+    } else {
+      turnNotification.innerText = "Opponent's turn. Please wait...";
+    }
+}
+
 
 toggleTheme.addEventListener("change", (e) => {
   if (e.target.checked) {
