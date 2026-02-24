@@ -88,3 +88,15 @@ h1 {
   }
 }
 
+.is-invalid {
+  border-color: red;
+  background-color: rgb(241, 180, 180);
+
+}
+
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: -10px;
+}
