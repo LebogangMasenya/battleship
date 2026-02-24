@@ -3,7 +3,7 @@ import { fromEvent } from "rxjs";
 import { scan, startWith, filter, switchMap, take, map } from "rxjs/operators";
 
 import socketService from "./socket.js";
-import { updateGameHistory } from "./history-func.js";
+import { updateGameHistoryTable } from "./history-func.js";
 import Swal from "sweetalert2";
 const socket = socketService.getSocket();
 
@@ -74,7 +74,7 @@ function updateLobbyUI(players) {
     playerListElement.appendChild(listItem);
   }
 
-  // updateGameHistory(players); // sync game history with current players in lobby
+  updateGameHistoryTable(players);
 
   players.forEach((player) => {
     const listItem = document.createElement("li");
