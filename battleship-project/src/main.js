@@ -313,6 +313,7 @@ socketMessages$
           cell.style.backgroundColor = "red";
         } else {
           cell.innerText = "X";
+          cell.style.fontSize = "2rem";
           cell.classList.add("miss-cell");
         }
       } else if (res.type === "turn_change") {

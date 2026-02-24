@@ -302,8 +302,31 @@ h2 {
   cursor: crosshair;
 }
 
-#player-board > .ship-cell {
-  background-color: var(--accent-color);
+
+
+#player-board > div[id^="carrier-ship"] {
+  background-color: #2C3E50;
+  border-radius: 4px;
+}
+
+#player-board > div[id^="battleship-ship"] {
+  background-color: #7F8C8D;
+  border-radius: 4px;
+}
+
+#player-board > div[id^="cruiser-ship"] {
+  background-color: #27AE60;
+  border-radius: 4px;
+}
+
+#player-board > div[id^="submarine-ship"] {
+  background-color: #D4AC0D;
+  border-radius: 4px;
+}
+
+#player-board > div[id^="destroyer-ship"] {
+  background-color: #ce693b;
+  border-radius: 4px;
 }
 
 .number-label {

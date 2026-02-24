@@ -73,7 +73,7 @@ export function updateGameHistoryTable(players) {
     <span>${entry.losses}</span>
     <span>${entry.wins}/${entry.losses}</span>
   `;
-    historyLogs.appendChild(logEntry);
+    historyLogs?.appendChild(logEntry);
   });
 
   saveGameHistoryToLocal(history);

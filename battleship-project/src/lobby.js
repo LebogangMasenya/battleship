@@ -74,7 +74,7 @@ function updateLobbyUI(players) {
     playerListElement.appendChild(listItem);
   }
 
-  updateGameHistoryTable(players);
+  //updateGameHistoryTable(players);
 
   players.forEach((player) => {
     const listItem = document.createElement("li");
